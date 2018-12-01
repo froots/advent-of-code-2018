@@ -2,17 +2,17 @@ import path from 'path';
 import fs from 'fs';
 
 async function loadInput(n: number): Promise<string> {
-  const filePath: string = path.resolve('../../../inputs', n.toString());
+  const filePath: string = path.resolve('inputs', n.toString());
   return await fs.promises.readFile(filePath, { encoding: 'utf8' });
 }
 
-async function solve(): Promise<void> {
+export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(1));
   console.log(solutionA(input));
 }
 
 function parseInput(input: string): number[] {
-  return input.split('\n').map(parseInt);
+  return input.split('\n').map(Number);
 }
 
 export function solutionA(frequencies: number[]): number {
