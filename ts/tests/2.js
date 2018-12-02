@@ -4,7 +4,8 @@ const {
   hasExactCount,
   solutionA,
   pairs,
-  sharedChars
+  sharedChars,
+  solutionB
 } = require('../dist/solutions/2');
 
 test('Day 2 #countsChars', t => {
@@ -64,8 +65,8 @@ test('Day 2 #sharedChars', t => {
   t.equal(sharedChars('abc', 'cba'), 'b');
 });
 
-// test('Day 2 solution part 2', t => {
-//   t.plan(1);
-//   let inp = ['abcd', 'efgh', 'ijkl', 'abed', 'efmn', 'ijlk'];
-//   t.equal(solutionB(inp), 'abd');
-// });
+test('Day 2 solution part 2', t => {
+  t.plan(1);
+  let inp = ['abcd', 'efgh', 'ijkl', 'abed', 'efmn', 'ijlk'];
+  t.equal(solutionB(inp), 'abd');
+});

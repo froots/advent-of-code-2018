@@ -33,12 +33,13 @@ export function solutionA(ids: string[]): number {
 }
 
 export function solutionB(ids: string[]): string {
-  // for (let pair of pairs(ids)) {
-  //   const sharedChars = sharedChars(...pair);
-  //   if (sharedChars.length === pair[0].length - 1) {
-  //     return sharedChars;
-  //   }
-  // }
+  for (let pair of pairs(ids)) {
+    const [left, right] = pair;
+    const shared = sharedChars(left, right);
+    if (shared.length === left.length - 1) {
+      return shared;
+    }
+  }
   return '';
 }
 
