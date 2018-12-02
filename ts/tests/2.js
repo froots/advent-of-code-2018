@@ -4,7 +4,7 @@ const {
   hasExactCount,
   solutionA,
   pairs,
-  solutionB
+  sharedChars
 } = require('../dist/solutions/2');
 
 test('Day 2 #countsChars', t => {
@@ -53,6 +53,15 @@ test('Day 2 #pairs', t => {
     ['c', 'd']
   ];
   t.deepEqual(pairs(inp), expected);
+});
+
+test('Day 2 #sharedChars', t => {
+  t.plan(5);
+  t.equal(sharedChars('abc', 'def'), '');
+  t.equal(sharedChars('abc', 'aef'), 'a');
+  t.equal(sharedChars('abc', 'abc'), 'abc');
+  t.equal(sharedChars('abc', 'acb'), 'a');
+  t.equal(sharedChars('abc', 'cba'), 'b');
 });
 
 // test('Day 2 solution part 2', t => {

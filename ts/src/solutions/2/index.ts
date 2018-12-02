@@ -33,12 +33,13 @@ export function solutionA(ids: string[]): number {
 }
 
 export function solutionB(ids: string[]): string {
-  // Create permutations
-  const perms = pairs(ids);
-  console.log(perms);
-  // Map over permutations
-  // If only one char diff, return identical chars
-  return 'abcd';
+  // for (let pair of pairs(ids)) {
+  //   const sharedChars = sharedChars(...pair);
+  //   if (sharedChars.length === pair[0].length - 1) {
+  //     return sharedChars;
+  //   }
+  // }
+  return '';
 }
 
 export function countChars(inp: string): Map<string, number> {
@@ -70,4 +71,11 @@ export function pairs<T>(inp: T[]): T[][] {
   }
   const leftPairs = rest.map(right => [left, right]);
   return [...leftPairs, ...pairs(rest)];
+}
+
+export function sharedChars(s1: string, s2: string): string {
+  return s1
+    .split('')
+    .filter((s, i) => s === s2[i])
+    .join('');
 }
