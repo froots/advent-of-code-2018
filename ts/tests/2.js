@@ -1,5 +1,11 @@
 const test = require('tape');
-const { countChars, hasExactCount, solutionA } = require('../dist/solutions/2');
+const {
+  countChars,
+  hasExactCount,
+  solutionA,
+  pairs,
+  solutionB
+} = require('../dist/solutions/2');
 
 test('Day 2 #countsChars', t => {
   t.plan(3);
@@ -34,3 +40,23 @@ test('Day 2 solution part 1', t => {
   ]; // total =  4,    3 = product of 12
   t.equal(solutionA(ids), 12);
 });
+
+test('Day 2 #pairs', t => {
+  t.plan(1);
+  let inp = ['a', 'b', 'c', 'd'];
+  let expected = [
+    ['a', 'b'],
+    ['a', 'c'],
+    ['a', 'd'],
+    ['b', 'c'],
+    ['b', 'd'],
+    ['c', 'd']
+  ];
+  t.deepEqual(pairs(inp), expected);
+});
+
+// test('Day 2 solution part 2', t => {
+//   t.plan(1);
+//   let inp = ['abcd', 'efgh', 'ijkl', 'abed', 'efmn', 'ijlk'];
+//   t.equal(solutionB(inp), 'abd');
+// });

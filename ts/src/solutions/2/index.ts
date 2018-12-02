@@ -4,6 +4,7 @@ import { identity } from '../../identity';
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(2));
   console.log(`Day 2, part 1: ${solutionA(input)}`);
+  console.log(`Day 2, part 2: ${solutionB(input)}`);
 }
 
 function parseInput(input: string): string[] {
@@ -31,6 +32,15 @@ export function solutionA(ids: string[]): number {
   return twos * threes;
 }
 
+export function solutionB(ids: string[]): string {
+  // Create permutations
+  const perms = pairs(ids);
+  console.log(perms);
+  // Map over permutations
+  // If only one char diff, return identical chars
+  return 'abcd';
+}
+
 export function countChars(inp: string): Map<string, number> {
   return inp
     .split('')
@@ -51,4 +61,13 @@ export function hasExactCount(n: number, counts: Map<string, number>): boolean {
 
 function sumArray(a1: number[], a2: number[]): number[] {
   return a2.map((n, i) => (a1[i] || 0) + n);
+}
+
+export function pairs<T>(inp: T[]): T[][] {
+  const [left, ...rest] = inp;
+  if (!left || !rest || !rest.length) {
+    return [];
+  }
+  const leftPairs = rest.map(right => [left, right]);
+  return [...leftPairs, ...pairs(rest)];
 }
