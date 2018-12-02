@@ -1,4 +1,5 @@
 import { loadInput } from '../../loadInput';
+import { identity } from '../../identity';
 
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(1));
@@ -10,7 +11,7 @@ function parseInput(input: string): number[] {
   return input
     .split('\n')
     .map(line => line.trim())
-    .filter(line => line !== '')
+    .filter(identity)
     .map(Number);
 }
 
