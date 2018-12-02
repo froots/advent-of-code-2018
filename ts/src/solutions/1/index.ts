@@ -1,10 +1,4 @@
-import path from 'path';
-import fs from 'fs';
-
-async function loadInput(n: number): Promise<string> {
-  const filePath: string = path.resolve('inputs', n.toString());
-  return await fs.promises.readFile(filePath, { encoding: 'utf8' });
-}
+import { loadInput } from '../../loadInput';
 
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(1));
