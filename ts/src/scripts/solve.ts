@@ -1,3 +1,5 @@
-import { solve } from '../solutions/1';
+import { solve as s1 } from '../solutions/1';
+import { solve as s2 } from '../solutions/2';
 
-solve();
+s1();
+s2();

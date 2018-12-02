@@ -3,8 +3,8 @@ import { identity } from '../../identity';
 
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(1));
-  console.log(`Part 1: ${solutionA(input)}`);
-  console.log(`Part 2: ${solutionB(input)}`);
+  console.log(`Day 1, part 1: ${solutionA(input)}`);
+  console.log(`Day 1, part 2: ${solutionB(input)}`);
 }
 
 function parseInput(input: string): number[] {

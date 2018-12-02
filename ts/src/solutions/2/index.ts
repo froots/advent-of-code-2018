@@ -2,7 +2,7 @@ import { loadInput } from '../../loadInput';
 import { identity } from '../../identity';
 
 export async function solve(): Promise<void> {
-  const input = parseInput(await loadInput(1));
+  const input = parseInput(await loadInput(2));
   console.log(`Day 2, part 1: ${solutionA(input)}`);
 }
 
