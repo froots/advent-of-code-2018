@@ -14,21 +14,21 @@ function parseInput(input: string): string[] {
 }
 
 export function solutionA(ids: string[]): number {
-  // Map each line to counts Map
-  // Map each line to array of [bool, bool] (2 letter, 3 letter groups present)
-  // reduce to single array [number, number] with counts of each
-  // return product of these
-
-  // const [twos, threes] = ids // string[]
-  //   .map(countChars) // Map<string, number>[]
-  //   .map(counts => [
-  //     hasExactCount(2, counts),
-  //     hasExactCount(3, counts)
-  //   ]) // boolean[][]
-  //   .reduce(sumBoolArray, [0, 0])
-  // return twos * threes;
-
-  return ids.length;
+  const [twos, threes] = ids
+    // create a Map for each ID with character counts {'a': 2}
+    .map(countChars)
+    // Create a [bool, bool] array describing whether each row has an exact
+    // count of 2 and 3 of the same character
+    .map(counts => [ 
+      hasExactCount(2, counts),
+      hasExactCount(3, counts)
+    ])
+    // Convert the bool values to 0 or 1
+    .map((a) => a.map(b => Number(b)))
+    // Sum the values to one [sum_of_twos, sum_of_threes] array
+    .reduce(sumArray, [0, 0])
+  // Return the product
+  return twos * threes;
 }
 
 export function countChars(inp: string): Map<string, number> {
@@ -49,12 +49,6 @@ export function hasExactCount(n: number, counts: Map<string, number>): boolean {
   return [...counts.values()].some((count: number) => count === n);
 }
 
-export function sumBoolArray(arr: boolean[][]): number[] {
-  return arr
-    .map(vals => vals.map(v => Number(v)))
-    .reduce(arraySum, []);
-}
-
-function arraySum(a1: number[], a2: number[]): number[] {
+function sumArray(a1: number[], a2: number[]): number[] {
   return a2.map((n, i) => (a1[i] || 0) + n);
-} 
+}

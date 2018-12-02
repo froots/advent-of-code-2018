@@ -1,11 +1,7 @@
 const test = require('tape');
-const {
-  countChars,
-  hasExactCount,
-  sumBoolArray
-} = require('../dist/solutions/2');
+const { countChars, hasExactCount, solutionA } = require('../dist/solutions/2');
 
-test('Counts characters in a string', t => {
+test('Day 2 #countsChars', t => {
   t.plan(3);
   let counts = countChars('aabcdd');
   t.equal(counts.get('a'), 2);
@@ -13,7 +9,7 @@ test('Counts characters in a string', t => {
   t.equal(counts.get('d'), 2);
 });
 
-test('Has exact count', t => {
+test('Day 2 #hasExactCount', t => {
   t.plan(4);
   let counts = new Map();
   counts.set('a', 3);
@@ -25,14 +21,16 @@ test('Has exact count', t => {
   t.notOk(hasExactCount(0, counts));
 });
 
-test('Sums array of booleans', t => {
+test('Day 2 solution part 1', t => {
   t.plan(1);
-  let arr = [
-    [true, false],
-    [false, false],
-    [true, true],
-    [false, true],
-    [false, true]
-  ];
-  t.deepEqual(sumBoolArray(arr), [2, 3]);
+  let ids = [
+    'abcdef', // false, false
+    'bababc', // true, true
+    'abbcde', // true, false
+    'abcccd', // false, true
+    'aabcdd', // true, false
+    'abcdee', // true, false
+    'ababab' // false, true
+  ]; // total =  4,    3 = product of 12
+  t.equal(solutionA(ids), 12);
 });

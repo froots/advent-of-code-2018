@@ -1,13 +1,13 @@
 const test = require('tape');
 const { solutionA, solutionB } = require('../dist/solutions/1');
 
-test('Day 1A', t => {
+test('Day 1 solution part 1', t => {
   t.plan(2);
   t.equal(solutionA([1, -5, 7]), 3);
   t.equal(solutionA([-19, -12, -11, 16]), -26);
 });
 
-test('Day 1B', t => {
+test('Day 1 solution part 2', t => {
   t.plan(4);
   t.equal(solutionB([1, -1]), 0);
   t.equal(solutionB([3, 3, 4, -2, -4]), 10);
