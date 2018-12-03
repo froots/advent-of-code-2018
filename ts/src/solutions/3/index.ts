@@ -3,7 +3,7 @@ import { identity } from '../../identity';
 
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(3));
-  console.log(`Day 3, part 1: ${solutionA(input)}`);
+  console.log(`Day 3, part 1: ${solutionA(input, 1000, 1000)}`);
 }
 
 function parseInput(input: string): string[] {
@@ -18,13 +18,16 @@ function parseInput(input: string): string[] {
  * @param input - Claims to examine in notational form
  * @returns Count of square inches
  */
-export function solutionA(input: string[]): number {
-  // Map -> parse claims
-  // Reduce -> registerClaim
-  // Flatten
-  // Filter -> (> 1)
-  // length
-  return 0;
+export function solutionA(input: string[], w: number, h: number): number {
+  const initialClaimMap: ClaimMap = Array(h)
+    .fill([])
+    .map(row => Array(w).fill(0));
+
+  const registeredClaimMap = input
+    .map(parseClaim)
+    .reduce(registerClaim, initialClaimMap);
+
+  return conflictCount(registeredClaimMap);
 }
 
 /**
@@ -32,7 +35,7 @@ export function solutionA(input: string[]): number {
  * @param notation - Notation in the form `#1 @ 1,3: 4x4`, donating ID & coords
  * @returns a Claim instance corresponding to the notation
  */
-export function parseClaim(notation: string): Claim | null {
+export function parseClaim(notation: string): Claim {
   const claimExpression = /#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/;
   const matches: RegExpMatchArray | null = notation.match(claimExpression);
   if (matches) {
@@ -41,11 +44,11 @@ export function parseClaim(notation: string): Claim | null {
       id: Number(id),
       x1: Number(x),
       y1: Number(y),
-      x2: Number(x) + Number(w),
-      y2: Number(y) + Number(h)
+      x2: Number(x) + Number(w) - 1,
+      y2: Number(y) + Number(h) - 1
     };
   }
-  return null;
+  throw new Error('Could not parse claim');
 }
 
 /**
@@ -62,6 +65,13 @@ export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
     }
   }
   return newClaimMap;
+}
+
+export function conflictCount(claimMap: ClaimMap): number {
+  let countArr: number[] = [];
+  return countArr.concat(...claimMap)
+    .filter(count => count > 1)
+    .length;
 }
 
 type Claim = {
