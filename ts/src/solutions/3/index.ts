@@ -25,7 +25,7 @@ export function solutionA(input: string[], w: number, h: number): number {
 
   const registeredClaimMap = input
     .map(parseClaim)
-    .reduce(registerClaim, initialClaimMap);
+    .reduce(countClaim, initialClaimMap);
 
   return conflictCount(registeredClaimMap);
 }
@@ -57,7 +57,7 @@ export function parseClaim(notation: string): Claim {
  * @param claimMap - Tracks the count of claims covering each coordinate
  * @param claim - The current claim to register
  */
-export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
+export function countClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
   const newClaimMap = [...claimMap.map(i => [...i])];
   for (let y = claim.y1; y <= claim.y2; y++) {
     for (let x = claim.x1; x <= claim.x2; x++) {
