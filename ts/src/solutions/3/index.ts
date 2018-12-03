@@ -53,19 +53,13 @@ export function parseClaim(notation: string): Claim | null {
  * @param claim - The current claim to register
  */
 export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
-  return claimMap
-    .map((row, y) => {
-      return row.map((count, x) => {
-        return inClaim(claim, x, y) ? count + 1 : count;
-      });
-    });
-}
-
-function inClaim(claim: Claim, x: number, y: number): boolean {
-  return x >= claim.p1[0] &&
-    x <= claim.p2[0] &&
-    y >= claim.p1[1] &&
-    y <= claim.p2[1];
+  const newClaimMap = [...claimMap.map(i => [...i])];
+  for (let y = claim.p1[1]; y <= claim.p2[1]; y++) {
+    for (let x = claim.p1[0]; x <= claim.p2[0]; x++) {
+      newClaimMap[y][x]++;
+    }
+  }
+  return newClaimMap;
 }
 
 type Claim = {
