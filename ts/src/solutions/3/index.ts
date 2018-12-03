@@ -32,8 +32,14 @@ export function solutionA(input: string[]): number {
  * @param notation - Notation in the form `#1 @ 1,3: 4x4`, donating ID & coords
  * @returns a Claim instance corresponding to the notation
  */
-export function parseClaim(notation: string): Claim {
-  return new Claim();
+export function parseClaim(notation: string): Claim | null {
+  const claimExpression = /#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/;
+  const matches: RegExpMatchArray | null = notation.match(claimExpression);
+  if (matches) {
+    const [_, id, x, y, w, h] = matches;
+    return new Claim(Number(id), Number(x), Number(y), Number(w), Number(h));
+  }
+  return null;
 }
 
 /**
@@ -47,12 +53,14 @@ export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
 }
 
 class Claim {
+  id: number;
   p1: Vector;
   p2: Vector;
 
-  constructor() {
-    this.p1 = [0, 0];
-    this.p2 = [0, 0];
+  constructor(id: number, x: number, y: number, w: number, h: number) {
+    this.id = id;
+    this.p1 = [x, y];
+    this.p2 = [x + w, y + h];
   }
 }
 
