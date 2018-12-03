@@ -39,8 +39,10 @@ export function parseClaim(notation: string): Claim | null {
     const [_, id, x, y, w, h] = matches;
     return {
       id: Number(id),
-      p1: [Number(x), Number(y)],
-      p2: [Number(x) + Number(w), Number(y) + Number(h)]
+      x1: Number(x),
+      y1: Number(y),
+      x2: Number(x) + Number(w),
+      y2: Number(y) + Number(h)
     };
   }
   return null;
@@ -54,8 +56,8 @@ export function parseClaim(notation: string): Claim | null {
  */
 export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
   const newClaimMap = [...claimMap.map(i => [...i])];
-  for (let y = claim.p1[1]; y <= claim.p2[1]; y++) {
-    for (let x = claim.p1[0]; x <= claim.p2[0]; x++) {
+  for (let y = claim.y1; y <= claim.y2; y++) {
+    for (let x = claim.x1; x <= claim.x2; x++) {
       newClaimMap[y][x]++;
     }
   }
@@ -64,10 +66,10 @@ export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
 
 type Claim = {
   id: number;
-  p1: Vector;
-  p2: Vector;
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
 }
-
-type Vector = [number, number];
 
 type ClaimMap = number[][];
