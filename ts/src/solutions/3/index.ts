@@ -37,7 +37,11 @@ export function parseClaim(notation: string): Claim | null {
   const matches: RegExpMatchArray | null = notation.match(claimExpression);
   if (matches) {
     const [_, id, x, y, w, h] = matches;
-    return new Claim(Number(id), Number(x), Number(y), Number(w), Number(h));
+    return {
+      id: Number(id),
+      p1: [Number(x), Number(y)],
+      p2: [Number(x) + Number(w), Number(y) + Number(h)]
+    };
   }
   return null;
 }
@@ -52,18 +56,12 @@ export function registerClaim(claimMap: ClaimMap, claim: Claim): ClaimMap {
   return [[0]];
 }
 
-class Claim {
+type Claim = {
   id: number;
   p1: Vector;
   p2: Vector;
-
-  constructor(id: number, x: number, y: number, w: number, h: number) {
-    this.id = id;
-    this.p1 = [x, y];
-    this.p2 = [x + w, y + h];
-  }
 }
 
 type Vector = [number, number];
-type ClaimMap = number[][];
 
+type ClaimMap = number[][];
