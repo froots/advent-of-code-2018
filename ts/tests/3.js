@@ -1,6 +1,7 @@
 const test = require('tape');
 const {
   solutionA,
+  solutionB,
   parseClaim,
   countClaim,
   conflictCount
@@ -63,4 +64,10 @@ test('Day 3 #conflictCount', t => {
     [0, 0, 0, 0, 0, 0, 0, 0]
   ];
   t.equal(conflictCount(claimMap), 4);
+});
+
+test('Day 3 part 2', t => {
+  t.plan(1);
+  const claims = ['#1 @ 1,3: 4x4', '#2 @ 3,1: 4x4', '#3 @ 5,5: 2x2'];
+  t.equal(solutionB(claims, 8, 8), 3);
 });

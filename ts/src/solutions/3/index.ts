@@ -4,6 +4,7 @@ import { identity } from '../../identity';
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(3));
   console.log(`Day 3, part 1: ${solutionA(input, 1000, 1000)}`);
+  console.log(`Day 3, part 2: ${solutionB(input, 1000, 1000)}`);
 }
 
 function parseInput(input: string): string[] {
@@ -16,18 +17,38 @@ function parseInput(input: string): string[] {
 /**
  * Calculates the count of square inches with at least 2 claims
  * @param input - Claims to examine in notational form
+ * @param w - Width of fabric
+ * @param h - Height of fabric
  * @returns Count of square inches
  */
 export function solutionA(input: string[], w: number, h: number): number {
-  const initialClaimMap: ClaimMap = Array(h)
-    .fill([])
-    .map(row => Array(w).fill(0));
+  const initialClaimMap: ClaimMap = createInitialClaimMap(w, h);
 
-  const registeredClaimMap = input
+  const countedClaimMap = input
     .map(parseClaim)
     .reduce(countClaim, initialClaimMap);
 
-  return conflictCount(registeredClaimMap);
+  return conflictCount(countedClaimMap);
+}
+
+/**
+ * Finds the first claim that has no overlaps
+ * @param input - Claims to examine
+ * @param w - Width of fabric
+ * @param h - Height of fabric
+ */
+export function solutionB(input: string[], w: number, h: number): number {
+  let claimMap: ClaimMap = createInitialClaimMap(w, h);
+  let claims = input.map(parseClaim);
+  claimMap = claims.reduce(registerClaim, claimMap);
+  return claims
+    .filter(claim => !claim.overlaps)[0].id;
+}
+
+function createInitialClaimMap(w: number, h: number): ClaimMap {
+  return Array(h)
+    .fill([])
+    .map(row => Array(w).fill(0));
 }
 
 /**
@@ -74,12 +95,33 @@ export function conflictCount(claimMap: ClaimMap): number {
     .length;
 }
 
+export function registerClaim(
+  claimMap: ClaimMap,
+  claim: Claim,
+  _: number,
+  claims: Claim[]
+): ClaimMap {
+  const newClaimMap = [...claimMap.map(i => [...i])];
+  for (let y = claim.y1; y <= claim.y2; y++) {
+    for (let x = claim.x1; x <= claim.x2; x++) {
+      if (newClaimMap[y][x] === 0) {
+        newClaimMap[y][x] = claim.id
+      } else {
+        claims[newClaimMap[y][x] - 1].overlaps = true;
+        claim.overlaps = true;
+      }
+    }
+  }
+  return newClaimMap;
+}
+
 type Claim = {
   id: number;
   x1: number,
   y1: number,
   x2: number,
-  y2: number
+  y2: number,
+  overlaps?: boolean
 }
 
 type ClaimMap = number[][];
