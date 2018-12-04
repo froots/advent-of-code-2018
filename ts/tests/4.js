@@ -1,5 +1,5 @@
 const test = require('tape');
-const { solutionA } = require('../dist/solutions/4');
+const { solutionA, parseEntry } = require('../dist/solutions/4');
 
 test.skip('Day 4 part 1', t => {
   let input = [
@@ -22,4 +22,18 @@ test.skip('Day 4 part 1', t => {
     '[1518-11-05 00:03] Guard #99 begins shift'
   ];
   t.equal(solutionA(input), 240);
+});
+
+test('Day 4 parse entry', t => {
+  t.plan(4);
+  const entry1 = '[1518-11-01 23:58] Guard #99 begins shift';
+  const entry2 = '[1518-11-03 00:24] falls asleep';
+
+  const parsedEntry1 = parseEntry(entry1);
+  const parsedEntry2 = parseEntry(entry2);
+
+  t.equal(parsedEntry1.datetime.toISOString(), '2018-11-01T23:58:00.000Z'); // shifting by 500 years to avoid nastiness with corrected times
+  t.equal(parsedEntry1.message, 'Guard #99 begins shift');
+  t.equal(parsedEntry2.datetime.toISOString(), '2018-11-03T00:24:00.000Z');
+  t.equal(parsedEntry2.message, 'falls asleep');
 });

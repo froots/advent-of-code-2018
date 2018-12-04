@@ -16,3 +16,26 @@ function parseInput(input: string): string[] {
 export function solutionA(input: string[]): number {
   return 0;
 }
+
+export function parseEntry(entry: string): LogEntry {
+  // [1518-04-11 00:00] Guard #2207 begins shift
+  const matcher = /\[(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})\] (.+)/;
+  const matches: RegExpMatchArray | null = entry.match(matcher);
+  if (!matches) {
+    throw new Error('Could not parse entry');
+  }
+  const datetime = new Date(
+    Number(matches[1]) + 500, // Avoiding historical date corrections
+    Number(matches[2]) - 1,
+    Number(matches[3]),
+    Number(matches[4]),
+    Number(matches[5])
+  );
+  const message = matches[6] || '';
+  return { datetime, message };
+}
+
+type LogEntry = {
+  datetime: Date;
+  message: string;
+}
