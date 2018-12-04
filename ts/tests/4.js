@@ -1,5 +1,5 @@
 const test = require('tape');
-const { solutionA, parseEntry } = require('../dist/solutions/4');
+const { solutionA, parseEntry, dateSorter } = require('../dist/solutions/4');
 
 test.skip('Day 4 part 1', t => {
   let input = [
@@ -36,4 +36,23 @@ test('Day 4 parse entry', t => {
   t.equal(parsedEntry1.message, 'Guard #99 begins shift');
   t.equal(parsedEntry2.datetime.toISOString(), '2018-11-03T00:24:00.000Z');
   t.equal(parsedEntry2.message, 'falls asleep');
+});
+
+test('Day 4 date sorter', t => {
+  t.plan(3);
+
+  const date1 = new Date(2018, 1, 22, 23, 5);
+  const date2 = new Date(2018, 1, 22, 22, 4);
+  const date3 = new Date(2018, 1, 22, 22, 31);
+  const entries = [
+    { datetime: date1 },
+    { datetime: date2 },
+    { datetime: date3 }
+  ];
+
+  const sorted = entries.sort(dateSorter('datetime'));
+
+  t.equal(sorted[0].datetime, date2);
+  t.equal(sorted[1].datetime, date3);
+  t.equal(sorted[2].datetime, date1);
 });

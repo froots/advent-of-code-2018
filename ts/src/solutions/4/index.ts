@@ -14,6 +14,8 @@ function parseInput(input: string): string[] {
 }
 
 export function solutionA(input: string[]): number {
+  // const parsedEntries = input.map(parseEntry);
+  // const sortedEntries = parsedEntries.sort(dateSorter('datetime'))
   return 0;
 }
 
@@ -35,7 +37,17 @@ export function parseEntry(entry: string): LogEntry {
   return { datetime, message };
 }
 
+export function dateSorter(key: string) {
+  return function(a: NamedDateMap, b: NamedDateMap): number {
+    return a[key].getTime() - b[key].getTime();
+  }
+}
+
 type LogEntry = {
   datetime: Date;
   message: string;
+}
+
+interface NamedDateMap {
+  [key: string]: Date;
 }
