@@ -14,10 +14,15 @@ function parseInput(input: string): string[] {
 }
 
 export function solutionA(input: string[]): number {
-  // const parsedEntries = input.map(parseEntry);
-  // const sortedEntries = parsedEntries.sort(dateSorter)
-  // const shifts = inferShifts(sortedEntries);
-  return 0;
+  const sortedEntries = input
+    .map(parseEntry)
+    .sort(dateSorter);
+
+  const shifts = inferShifts(sortedEntries);
+  const sleepsByGuard = guardSleeps(shifts);
+  const guardWithMostSleeps = mostSleeps(sleepsByGuard);
+  const guardMostAsleep = mostAsleepTime(sleepsByGuard.get(guardWithMostSleeps));
+  return guardWithMostSleeps * guardMostAsleep;
 }
 
 export function parseEntry(entry: string): LogEntry {
@@ -83,27 +88,68 @@ export function inferShifts(entries: LogEntry[]): Shift[] {
   return shifts;
 }
 
-class Shift {
+export function guardSleeps(shifts: Shift[]): SleepsByGuard {
+  let sleepsByGuard = new Map();
+  for (let shift of shifts) {
+    sleepsByGuard.set(
+      shift.guardId,
+      [...(sleepsByGuard.get(shift.guardId) || []), ...shift.sleeps]
+    );
+  }
+  return sleepsByGuard;
+}
+
+export function mostSleeps(sleepsByGuard: SleepsByGuard): number {
+  let guardTotals: Map<number, number> = new Map;
+  for (let [id, sleeps] of sleepsByGuard) {
+    const totalSleep = sleeps.reduce((total: number, sleep: Sleep): number => {
+      return total + sleep.endMinutes - sleep.startMinutes;
+    }, 0);
+    guardTotals.set(id, totalSleep);
+  }
+
+  const totals = Array.from(guardTotals.entries());
+
+  const sorter = ([id1, tot1]: [number, number], [id2, tot2]: [number, number]) => {
+    return tot2 - tot1;
+  };
+
+  return totals.sort(sorter)[0][0];
+}
+
+export function mostAsleepTime(sleeps: Sleep[] = []): number {
+  const minutes = Array(60).fill(0);
+  for (let sleep of sleeps) {
+    for (let i: number = sleep.startMinutes; i < sleep.endMinutes; i++) {
+      minutes[i]++;
+    }
+  }
+  return minutes.indexOf(Math.max(...minutes));
+}
+
+export class Shift {
   guardId: number;
   date: Date;
   sleeps: Sleep[];
 
-  constructor() {
-    this.guardId = 0;
-    this.date = new Date();
-    this.sleeps = [];
+  constructor(guardId: number = 0, date: Date = new Date(), sleeps: Sleep[] = []) {
+    this.guardId = guardId;
+    this.date = date;
+    this.sleeps = sleeps;
   }
 }
 
-class Sleep {
+export class Sleep {
   startMinutes: number;
   endMinutes: number;
 
-  constructor() {
-    this.startMinutes = 0;
-    this.endMinutes = 0;
+  constructor(startMinutes: number = 0, endMinutes: number = 0) {
+    this.startMinutes = startMinutes;
+    this.endMinutes = endMinutes;
   }
 }
+
+type SleepsByGuard = Map<number, Sleep[]>;
 
 type LogEntry = {
   datetime: Date;
