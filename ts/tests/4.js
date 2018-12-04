@@ -1,5 +1,10 @@
 const test = require('tape');
-const { solutionA, parseEntry, dateSorter } = require('../dist/solutions/4');
+const {
+  solutionA,
+  parseEntry,
+  dateSorter,
+  inferShifts
+} = require('../dist/solutions/4');
 
 test.skip('Day 4 part 1', t => {
   let input = [
@@ -55,4 +60,57 @@ test('Day 4 date sorter', t => {
   t.equal(sorted[0].datetime, date2);
   t.equal(sorted[1].datetime, date3);
   t.equal(sorted[2].datetime, date1);
+});
+
+test('Day 4 #inferShifts', t => {
+  t.plan(10);
+
+  const entries = [
+    {
+      datetime: new Date(2018, 10, 1, 0, 3),
+      message: 'Guard #10 begins shift'
+    },
+    {
+      datetime: new Date(2018, 10, 1, 0, 5),
+      message: 'falls asleep'
+    },
+    {
+      datetime: new Date(2018, 10, 1, 0, 25),
+      message: 'wakes up'
+    },
+    {
+      datetime: new Date(2018, 10, 1, 0, 30),
+      message: 'falls asleep'
+    },
+    {
+      datetime: new Date(2018, 10, 1, 0, 55),
+      message: 'wakes up'
+    },
+    {
+      datetime: new Date(2018, 10, 1, 23, 58),
+      message: 'Guard #99 begins shift'
+    },
+    {
+      datetime: new Date(2018, 10, 2, 0, 40),
+      message: 'falls asleep'
+    },
+    {
+      datetime: new Date(2018, 10, 2, 0, 50),
+      message: 'wakes up'
+    }
+  ];
+  const shifts = inferShifts(entries);
+
+  t.equal(shifts.length, 2);
+
+  t.equal(shifts[0].guardId, 10);
+  t.equal(shifts[0].date.getTime(), new Date(2018, 10, 1).getTime());
+  t.equal(shifts[0].sleeps.length, 2);
+  t.deepEqual(shifts[0].sleeps[0], { startMinutes: 5, endMinutes: 25 });
+  t.deepEqual(shifts[0].sleeps[1], { startMinutes: 30, endMinutes: 55 });
+
+  t.equal(shifts[1].guardId, 99);
+  t.equal(shifts[1].date.getTime(), new Date(2018, 10, 2).getTime());
+  t.equal(shifts[1].sleeps.length, 1);
+  t.deepEqual(shifts[1].sleeps[0], { startMinutes: 40, endMinutes: 50 });
 });
