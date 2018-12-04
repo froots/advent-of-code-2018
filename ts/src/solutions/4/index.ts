@@ -4,6 +4,7 @@ import { identity } from '../../identity';
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(4));
   console.log(`Day 4, part 1: ${solutionA(input)}`);
+  console.log(`Day 4, part 2: ${solutionB(input)}`);
 }
 
 function parseInput(input: string): string[] {
@@ -14,15 +15,54 @@ function parseInput(input: string): string[] {
 }
 
 export function solutionA(input: string[]): number {
+  const sleepsByGuard: SleepsByGuard = prepareInput(input);
+  const guardWithMostSleeps: number = mostSleeps(sleepsByGuard);
+  const guardMostAsleep: number = mostAsleepTime(sleepsByGuard.get(guardWithMostSleeps));
+  return guardWithMostSleeps * guardMostAsleep;
+}
+
+export function solutionB(input: string[]): number {
+  const sleepsByGuard: SleepsByGuard = prepareInput(input);
+ 
+  const sleepHeatMapByGuard: Map<number, [number, number]> = new Map();
+
+  for (let [id, sleeps] of sleepsByGuard) {
+    let heatMap: number[] = sleeps.reduce((hm: number[], sleep: Sleep): number[] => {
+      let newHeatMap = [...hm];
+      for (let i = sleep.startMinutes; i < sleep.endMinutes; i++) {
+        newHeatMap[i]++;
+      }
+      return newHeatMap;
+    }, Array(60).fill(0));
+
+    let maxAmount: number = Math.max(...heatMap);
+    let maxMinute: number = heatMap.indexOf(maxAmount);
+    
+    sleepHeatMapByGuard.set(id, [maxMinute, maxAmount]);
+  }
+
+  let maxId: number = -1;
+  let maxMinute: number = -1;
+  let maxAmount: number = 0;
+
+  for (let [id, [minute, amount]] of sleepHeatMapByGuard) {
+    if (amount > maxAmount) {
+      maxAmount = amount;
+      maxId = id;
+      maxMinute = minute;
+    }
+  }
+
+  return maxId * maxMinute;
+}
+
+function prepareInput(input: string[]): SleepsByGuard {
   const sortedEntries = input
     .map(parseEntry)
     .sort(dateSorter);
 
   const shifts = inferShifts(sortedEntries);
-  const sleepsByGuard = guardSleeps(shifts);
-  const guardWithMostSleeps = mostSleeps(sleepsByGuard);
-  const guardMostAsleep = mostAsleepTime(sleepsByGuard.get(guardWithMostSleeps));
-  return guardWithMostSleeps * guardMostAsleep;
+  return guardSleeps(shifts);
 }
 
 export function parseEntry(entry: string): LogEntry {
