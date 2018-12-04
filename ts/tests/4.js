@@ -50,7 +50,7 @@ test('Day 4 date sorter', t => {
     { datetime: date3 }
   ];
 
-  const sorted = entries.sort(dateSorter('datetime'));
+  const sorted = entries.sort(dateSorter);
 
   t.equal(sorted[0].datetime, date2);
   t.equal(sorted[1].datetime, date3);
