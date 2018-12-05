@@ -6,7 +6,7 @@ export async function solve(): Promise<void> {
 }
 
 export function solutionA(input: string): number {
-  return 10;
+  return resolve(input).length;
 }
 
 export function trigger(polymer: string): string {
@@ -19,4 +19,14 @@ export function trigger(polymer: string): string {
     }
   }
   return polymer;
+}
+
+export function resolve(polymer: string): string {
+  let before: string = '';
+  let after: string = polymer;
+  while (before !== after) {
+    before = after;
+    after = trigger(before);
+  }
+  return after;
 }
