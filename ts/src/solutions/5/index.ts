@@ -3,10 +3,19 @@ import { loadInput } from '../../loadInput';
 export async function solve(): Promise<void> {
   const input = (await loadInput(5)).trim();
   console.log(`Day 5, part 1: ${solutionA(input)}`);
+  console.log(`Day 5, part 2: ${solutionB(input)}`);
 }
 
 export function solutionA(input: string): number {
   return resolve(input).length;
+}
+
+export function solutionB(input: string): number {
+  return Math.min(
+    ...'abcdefghijklmnopqrstuvwxyz'
+      .split('')
+      .map((letter: string) => resolve(input.replace(new RegExp(letter, 'ig'), '')).length)
+  );
 }
 
 export function trigger(polymer: string): string {

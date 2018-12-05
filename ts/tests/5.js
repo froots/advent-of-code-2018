@@ -1,5 +1,10 @@
 const test = require('tape');
-const { solutionA, trigger, resolve } = require('../dist/solutions/5');
+const {
+  solutionA,
+  solutionB,
+  trigger,
+  resolve
+} = require('../dist/solutions/5');
 
 test('Day 5 part 1', t => {
   t.plan(1);
@@ -19,4 +24,9 @@ test('Day 5 #trigger', t => {
 test('day 5 #resolve', t => {
   t.plan(1);
   t.equal(resolve('dabAcCaCBAcCcaDA'), 'dabCBAcaDA');
+});
+
+test('Day 5 part 2', t => {
+  t.plan(1);
+  t.equal(solutionB('dabAcCaCBAcCcaDA'), 4);
 });
