@@ -18,7 +18,6 @@ const input = [
 
 tape('Day 6 part 1', t => {
   t.plan(1);
-  t.comment(solutionA(input));
   t.equal(solutionA(input), 17);
 });
 

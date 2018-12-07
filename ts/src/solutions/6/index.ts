@@ -17,9 +17,37 @@ function parseInput(input: string): number[][] {
 export function solutionA(coords: number[][]) {
   const [topLeft, bottomRight] = findBounds(coords);
   const points = allPoints(topLeft, bottomRight);
-  return points
+  const nearestMap = points
     .map(point => [...point, getNearestCoord(coords, point)]);
+  const perimeterPoints = nearestMap
+    .filter(perimeterFilter);
+  const perimeterCoords = perimeterPoints
+    .map(([x, y, nearest]) => nearest)
+    .filter(n => n >= 0)
+    .filter((val, i, self) => self.indexOf(val) === i);
+  const wipeInfinite = nearestMap
+    .filter(([x, y, nearest]: number[]) =>
+      perimeterCoords.indexOf(nearest) === -1 && 
+      nearest >= 0
+    );
+  const areas = wipeInfinite
+    .reduce((counts, [x, y, nearest]) => {
+      counts.set(nearest, (counts.get(nearest) || 0) + 1);
+      return counts;
+    }, new Map())
+    .values();
+
+  function perimeterFilter([x, y, nearest]: number[]): boolean {
+    return x === topLeft[0] ||
+      x === bottomRight[0] ||
+      y === topLeft[1] ||
+      y === bottomRight[1];
+  }
+
+  return Math.max(...areas);
 }
+
+
 
 export function getNearestCoord(coords: number[][], point: number[]): number {
   let distances = coords
