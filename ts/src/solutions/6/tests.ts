@@ -1,6 +1,7 @@
 import tape from 'tape';
 import {
   solutionA,
+  solutionB,
   findBounds,
   allPoints,
   getNearestCoord,
@@ -51,3 +52,8 @@ tape('Day 6 #manhattanDistance', t => {
   t.equal(manhattanDistance(input[0], input[1]), 5);
   t.equal(manhattanDistance(input[2], input[1]), 10);
 })
+
+tape('Day 6 part 2', t => {
+  t.plan(1);
+  t.equal(solutionB(input, 32), 16);
+});

@@ -4,6 +4,7 @@ import { identity } from '../../identity';
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(6));
   console.log(`Day 6, part 1: ${solutionA(input)}`);
+  console.log(`Day 6, part 2: ${solutionB(input, 10000)}`);
 }
 
 function parseInput(input: string): number[][] {
@@ -34,6 +35,17 @@ export function solutionA(coords: number[][]) {
       return counts;
     }, new Map())
     .values());
+}
+
+export function solutionB(coords: number[][], maxTotal: number): number {
+  const [tl, br] = findBounds(coords);
+  return allPoints(tl, br)
+    .map(point => coords
+      .map((coord) => manhattanDistance(point, coord))
+      .reduce((sum, distance) => distance + sum, 0)
+    )
+    .filter(total => total < maxTotal)
+    .length;
 }
 
 export function getNearestCoord(coords: number[][], point: number[]): number {
