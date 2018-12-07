@@ -5,12 +5,7 @@ const {
   solutionB,
   parseEvent,
   eventReducer,
-  totalsById,
-
-  Shift,
-  Sleep,
-  guardSleeps,
-  mostAsleepTime
+  totalsById
 } = require('../dist/solutions/4');
 
 let input = [
@@ -135,33 +130,8 @@ test('Day 4 #totalsById', t => {
   t.equal(actual.get(3), 5);
 });
 
-// test('Day 4 #guardSleeps', t => {
-//   t.plan(4);
-
-//   const s1 = new Shift(10, new Date(2018, 10, 1), [
-//     new Sleep(5, 25),
-//     new Sleep(30, 55)
-//   ]);
-//   const s2 = new Shift(99, new Date(2018, 10, 2), [new Sleep(40, 50)]);
-//   const s3 = new Shift(10, new Date(2018, 10, 3), [new Sleep(24, 29)]);
-//   const s4 = new Shift(99, new Date(2018, 10, 4), [new Sleep(36, 46)]);
-//   const s5 = new Shift(99, new Date(2018, 10, 5), [new Sleep(45, 55)]);
-//   const shifts = [s1, s2, s3, s4, s5];
-//   const sleepsByGuard = guardSleeps(shifts);
-
-//   t.equal(sleepsByGuard.size, 2);
-//   t.equal(sleepsByGuard.get(10).length, 3);
-//   t.equal(sleepsByGuard.get(10)[0].startMinutes, 5);
-//   t.equal(sleepsByGuard.get(10)[0].endMinutes, 25);
-// });
-
-// test('Day 4 most asleep time', t => {
-//   t.plan(1);
-//   const sleeps = [new Sleep(5, 25), new Sleep(30, 55), new Sleep(24, 29)];
-//   t.equal(mostAsleepTime(sleeps), 24);
-// });
-
-// test('Day 4 part 2', t => {
-//   t.plan(1);
-//   t.equal(solutionB(input), 4455);
-// });
+test('Day 4 part 2', t => {
+  t.plan(1);
+  t.comment(solutionB(input));
+  t.equal(solutionB(input), 4455);
+});
