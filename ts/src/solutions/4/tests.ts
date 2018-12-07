@@ -1,12 +1,12 @@
-const test = require('tape');
-const {
+import tape from 'tape';
+import {
   solutionA,
   dateSorter,
   solutionB,
   parseEvent,
   eventReducer,
   totalsById
-} = require('../dist/solutions/4');
+} from './';
 
 let input = [
   '[1518-11-01 00:05] falls asleep',
@@ -28,21 +28,21 @@ let input = [
   '[1518-11-05 00:03] Guard #99 begins shift'
 ];
 
-test('Day 4 part 1', t => {
+tape('Day 4 part 1', t => {
   t.plan(1);
   const solution = solutionA(input);
   t.comment(JSON.stringify(solution));
   t.equal(solutionA(input), 240);
 });
 
-test('Day 4 date sorter', t => {
+tape('Day 4 date sorter', t => {
   t.plan(2);
   const sorted = [...input].sort(dateSorter);
   t.equal(sorted[0], input[1]);
   t.equal(sorted[1], input[0]);
 });
 
-test('Day 4 parse event', t => {
+tape('Day 4 parse event', t => {
   t.plan(6);
   const shiftStart = parseEvent(input[1]);
   const fallsAsleep = parseEvent(input[0]);
@@ -56,7 +56,7 @@ test('Day 4 parse event', t => {
   t.equal(wakesUp.payload, 25);
 });
 
-test('Day 4 #eventReducer shift start', t => {
+tape('Day 4 #eventReducer shift start', t => {
   t.plan(1);
   const shiftStart = eventReducer([], { type: 0, payload: 10 });
   const expected = [{ id: 10 }];
@@ -67,7 +67,7 @@ test('Day 4 #eventReducer shift start', t => {
   );
 });
 
-test('Day 4 #eventReducer shift start with previous sleep', t => {
+tape('Day 4 #eventReducer shift start with previous sleep', t => {
   t.plan(1);
   const sleep1 = { id: 99, start: 30, end: 40 };
   const shiftStart = eventReducer([sleep1], { type: 0, payload: 10 });
@@ -79,7 +79,7 @@ test('Day 4 #eventReducer shift start with previous sleep', t => {
   );
 });
 
-test('Day 4 #eventReducer falls asleep', t => {
+tape('Day 4 #eventReducer falls asleep', t => {
   t.plan(1);
   const fallsAsleep = eventReducer([{ id: 10 }], { type: 1, payload: 5 });
   const expected = [{ id: 10, start: 5 }];
@@ -90,7 +90,7 @@ test('Day 4 #eventReducer falls asleep', t => {
   );
 });
 
-test('Day 4 #eventReducer falls asleep again', t => {
+tape('Day 4 #eventReducer falls asleep again', t => {
   t.plan(1);
   const sleep1 = { id: 10, start: 5, end: 25 };
   const fallsAsleep2 = eventReducer([sleep1], { type: 1, payload: 30 });
@@ -102,7 +102,7 @@ test('Day 4 #eventReducer falls asleep again', t => {
   );
 });
 
-test('Day 4 #eventReducer wakes up', t => {
+tape('Day 4 #eventReducer wakes up', t => {
   t.plan(1);
   const wakesUp = eventReducer([{ id: 10, start: 5 }], {
     type: 2,
@@ -116,7 +116,7 @@ test('Day 4 #eventReducer wakes up', t => {
   );
 });
 
-test('Day 4 #totalsById', t => {
+tape('Day 4 #totalsById', t => {
   t.plan(3);
   const sleeps = [
     { id: 1, start: 5, end: 10 },
@@ -130,8 +130,7 @@ test('Day 4 #totalsById', t => {
   t.equal(actual.get(3), 5);
 });
 
-test('Day 4 part 2', t => {
+tape('Day 4 part 2', t => {
   t.plan(1);
-  t.comment(solutionB(input));
   t.equal(solutionB(input), 4455);
 });

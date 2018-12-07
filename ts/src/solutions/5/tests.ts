@@ -1,18 +1,18 @@
-const test = require('tape');
-const {
+import tape from 'tape';
+import {
   solutionA,
   solutionB,
   trigger,
   resolve
-} = require('../dist/solutions/5');
+} from './';
 
-test('Day 5 part 1', t => {
+tape('Day 5 part 1', t => {
   t.plan(1);
   const input = 'dabAcCaCBAcCcaDA';
   t.equal(solutionA(input), 10);
 });
 
-test('Day 5 #trigger', t => {
+tape('Day 5 #trigger', t => {
   t.plan(5);
   t.equal(trigger('aA'), '');
   t.equal(trigger('abBA'), 'aA');
@@ -21,12 +21,12 @@ test('Day 5 #trigger', t => {
   t.equal(trigger('dabAcCaCBAcCcaDA'), 'dabAcCaCBAcaDA');
 });
 
-test('day 5 #resolve', t => {
+tape('day 5 #resolve', t => {
   t.plan(1);
   t.equal(resolve('dabAcCaCBAcCcaDA'), 'dabCBAcaDA');
 });
 
-test('Day 5 part 2', t => {
+tape('Day 5 part 2', t => {
   t.plan(1);
   t.equal(solutionB('dabAcCaCBAcCcaDA'), 4);
 });

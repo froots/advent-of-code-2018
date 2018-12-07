@@ -1,19 +1,19 @@
-const test = require('tape');
-const {
+import tape from 'tape';
+import {
   solutionA,
   solutionB,
   parseClaim,
   countClaim,
   conflictCount
-} = require('../dist/solutions/3');
+} from './';
 
-test('Day 3 part 1', t => {
+tape('Day 3 part 1', t => {
   t.plan(1);
   const claims = ['#1 @ 1,3: 4x4', '#2 @ 3,1: 4x4', '#3 @ 5,5: 2x2'];
   t.equal(solutionA(claims, 8, 8), 4);
 });
 
-test('Day 3 #parseClaim', t => {
+tape('Day 3 #parseClaim', t => {
   t.plan(5);
   const claim = parseClaim('#154 @ 12,39: 52x32');
   t.equal(claim.id, 154);
@@ -23,7 +23,7 @@ test('Day 3 #parseClaim', t => {
   t.equal(claim.y2, 70);
 });
 
-test('Day 3 #countClaim', t => {
+tape('Day 3 #countClaim', t => {
   t.plan(2);
 
   const claim1 = {
@@ -51,7 +51,7 @@ test('Day 3 #countClaim', t => {
   t.deepEqual(actual2, expected2);
 });
 
-test('Day 3 #conflictCount', t => {
+tape('Day 3 #conflictCount', t => {
   t.plan(1);
   const claimMap = [
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -66,7 +66,7 @@ test('Day 3 #conflictCount', t => {
   t.equal(conflictCount(claimMap), 4);
 });
 
-test('Day 3 part 2', t => {
+tape('Day 3 part 2', t => {
   t.plan(1);
   const claims = ['#1 @ 1,3: 4x4', '#2 @ 3,1: 4x4', '#3 @ 5,5: 2x2'];
   t.equal(solutionB(claims, 8, 8), 3);
