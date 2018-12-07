@@ -15,39 +15,26 @@ function parseInput(input: string): number[][] {
 }
 
 export function solutionA(coords: number[][]) {
-  const [topLeft, bottomRight] = findBounds(coords);
-  const points = allPoints(topLeft, bottomRight);
-  const nearestMap = points
+  const [tl, br] = findBounds(coords);
+  const nearestMap = allPoints(tl, br)
     .map(point => [...point, getNearestCoord(coords, point)]);
-  const perimeterPoints = nearestMap
-    .filter(perimeterFilter);
-  const perimeterCoords = perimeterPoints
+  const perimeterCoords = nearestMap
+    .filter(([x, y]) => x === tl[0] || x === br[0] || y === tl[1] || y === br[1])
     .map(([x, y, nearest]) => nearest)
     .filter(n => n >= 0)
     .filter((val, i, self) => self.indexOf(val) === i);
-  const wipeInfinite = nearestMap
+  
+  return Math.max(...nearestMap
     .filter(([x, y, nearest]: number[]) =>
       perimeterCoords.indexOf(nearest) === -1 && 
       nearest >= 0
-    );
-  const areas = wipeInfinite
+    )
     .reduce((counts, [x, y, nearest]) => {
       counts.set(nearest, (counts.get(nearest) || 0) + 1);
       return counts;
     }, new Map())
-    .values();
-
-  function perimeterFilter([x, y, nearest]: number[]): boolean {
-    return x === topLeft[0] ||
-      x === bottomRight[0] ||
-      y === topLeft[1] ||
-      y === bottomRight[1];
-  }
-
-  return Math.max(...areas);
+    .values());
 }
-
-
 
 export function getNearestCoord(coords: number[][], point: number[]): number {
   let distances = coords
@@ -80,20 +67,10 @@ export function allPoints(
 }
 
 export function findBounds(coords: number[][]): number[][] {
+  const xs = coords.map(c => c[0]);
+  const ys = coords.map(c => c[1]);
   return [
-    [
-      Math.min(...pluckIndex(coords, 0)),
-      Math.min(...pluckIndex(coords, 1))
-    ],
-    [
-      Math.max(...pluckIndex(coords, 0)),
-      Math.max(...pluckIndex(coords, 1))
-    ]
+    [ Math.min(...xs), Math.min(...ys) ],
+    [ Math.max(...xs), Math.max(...ys) ]
   ];
 }
-
-function pluckIndex(collection: any[][], idx: number) {
-  return collection.map(inner => inner[idx]);
-}
-
-
