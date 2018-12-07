@@ -1,5 +1,11 @@
 import tape from 'tape';
-import { solutionA, findBounds, allPoints } from './';
+import {
+  solutionA,
+  findBounds,
+  allPoints,
+  getNearestCoord,
+  manhattanDistance
+} from './';
 
 const input = [
   [1, 1],
@@ -31,4 +37,18 @@ tape('Day 6 #allPoints', t => {
     [4, 5],
     [5, 5]
   ]);
+})
+
+tape('Day 6 #getNearestCoord', t => {
+  t.plan(4);
+  t.equal(getNearestCoord(input, [2, 1]), 0, 'First coord');
+  t.equal(getNearestCoord(input, [4, 1]), 0, 'First coord');
+  t.equal(getNearestCoord(input, [5, 1]), -1, 'No match');
+  t.equal(getNearestCoord(input, [2, 5]), -1, 'No match');
+});
+
+tape('Day 6 #manhattanDistance', t => {
+  t.plan(2);
+  t.equal(manhattanDistance(input[0], input[1]), 5);
+  t.equal(manhattanDistance(input[2], input[1]), 10);
 })

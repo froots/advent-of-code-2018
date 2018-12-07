@@ -14,10 +14,28 @@ function parseInput(input: string): number[][] {
     .map(line => line.split(', ').map(Number));
 }
 
-export function solutionA(input: number[][]) {
-  let [topLeft, bottomRight] = findBounds(input);
-  let points = allPoints(topLeft, bottomRight); 
-  return points;
+export function solutionA(coords: number[][]) {
+  const [topLeft, bottomRight] = findBounds(coords);
+  const points = allPoints(topLeft, bottomRight);
+  return points
+    .map(point => [...point, getNearestCoord(coords, point)]);
+}
+
+export function getNearestCoord(coords: number[][], point: number[]): number {
+  let distances = coords
+    .map((coord, i) => [ i, manhattanDistance(coord, point) ])
+    .sort(([i1, d1], [i2, d2]) => d1 - d2);
+  if (distances.length > 1 && distances[0][1] === distances[1][1]) {
+    return -1;
+  }
+  return distances[0][0];
+}
+
+export function manhattanDistance(
+  [x1, y1]: number[],
+  [x2, y2]: number[]
+): number {
+  return Math.abs(y2 - y1) + Math.abs(x2 - x1);
 }
 
 export function allPoints(
