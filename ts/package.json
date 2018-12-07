@@ -5,6 +5,7 @@
   "scripts": {
     "start": "tsc && node ./dist/scripts/solve.js",
     "test": "tsc && tape dist/**/*tests.js | faucet",
+    "test:w": "tape-watch dist/**/*tests.js -c -p faucet",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
   },
@@ -13,6 +14,7 @@
     "@types/tape": "^4.2.32",
     "faucet": "0.0.1",
     "tape": "^4.9.1",
+    "tape-watch": "^2.3.0",
     "typescript": "^3.2.1"
   }
 }
