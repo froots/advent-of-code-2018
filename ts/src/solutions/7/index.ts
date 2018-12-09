@@ -23,9 +23,6 @@ function parseInput(input: string): [string, string][] {
 }
 
 export function solutionA(links: [string, string][]): string {
-
   const graph = new Graph(links);
-
-  console.log(graph);
-  return 'A';
+  return [...graph].join('');
 }

@@ -1,14 +1,60 @@
+import { flatten } from '../../flatten';
+import { uniqueFilter } from '../../unique';
+
 export class Graph {
   adjList: AdjacencyList
 
   constructor(links: [string, string][]) {
     this.adjList = new Map();
-    links.forEach(([s1, s2]: [string, string]) => {
-      this.adjList.set(s1, [...(this.adjList.get(s1) || []), s2]);
-      if (!this.adjList.has(s2)) {
-        this.adjList.set(s2, []);
-      }
-    });
+    links.forEach(([link1, link2]) => this.addPair(link1, link2));
+  }
+
+  addPair(s1: string, s2: string): void {
+    this.addVertex(s1);
+    this.addVertex(s2);
+    this.addEdge(s1, s2);
+  }
+
+  addVertex(vertex: string): void {
+    if (!this.adjList.has(vertex)) {
+      this.adjList.set(vertex, []);
+    }
+  }
+
+  addEdge(vertex: string, edge: string): void {
+    this.adjList.set(vertex, [...(this.adjList.get(vertex) || []), edge]);
+  }
+
+  deleteVertex(vertex: string): void {
+    this.adjList.delete(vertex);
+  }
+
+  get vertices(): string[] {
+    return [...this.adjList.keys()].sort();
+  }
+
+  get edges(): string[] {
+    return flatten([...this.adjList.values()])
+      .sort()
+      .filter(uniqueFilter);
+  }
+
+  get nextAvailable(): string | null {
+    const available = this.vertices
+      .filter(vertex => !this.edges.includes(vertex));
+    if (available && available.length > 0) {
+      return available[0];
+    }
+    return null;
+  }
+
+  *[Symbol.iterator](): IterableIterator<string> {
+    let next = this.nextAvailable;
+    while (next) {
+      yield next;
+      this.deleteVertex(next);
+      next = this.nextAvailable;
+    }
   }
 }
 
