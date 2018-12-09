@@ -44,7 +44,7 @@ tape('Day 7 Graph#edges', t => {
 tape('Day 7 Graph#iterate', t => {
   t.plan(1);
   const graph = new Graph(input);
-  t.deepEqual([...graph], ['C', 'A', 'B', 'D', 'F', 'E']);
+  t.deepEqual([...graph.serialTraverser()], ['C', 'A', 'B', 'D', 'F', 'E']);
 });
 
 

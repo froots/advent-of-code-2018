@@ -24,5 +24,5 @@ function parseInput(input: string): [string, string][] {
 
 export function solutionA(links: [string, string][]): string {
   const graph = new Graph(links);
-  return [...graph].join('');
+  return [...graph.serialTraverser()].join('');
 }

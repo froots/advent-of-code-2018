@@ -48,14 +48,19 @@ export class Graph {
     return available && available[0] || null;
   }
 
-  *[Symbol.iterator](): IterableIterator<string> {
-    let next = this.nextAvailable;
-    while (next) {
-      yield next;
-      this.deleteVertex(next);
-      next = this.nextAvailable;
-    }
-  }
+  serialTraverser() {
+    const graph = this;
+    return {
+      *[Symbol.iterator](): IterableIterator<string> {
+        let next = graph.nextAvailable;
+        while (next) {
+          yield next;
+          graph.deleteVertex(next);
+          next = graph.nextAvailable;
+        }
+      }
+    };
+  }  
 }
 
 type AdjacencyList = Map<string, string[]>;
