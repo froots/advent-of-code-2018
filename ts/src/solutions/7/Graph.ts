@@ -39,13 +39,13 @@ export class Graph {
       .filter(uniqueFilter);
   }
 
+  get available(): string[] {
+    return this.vertices.filter(vertext => !this.edges.includes(vertext));
+  }
+
   get nextAvailable(): string | null {
-    const available = this.vertices
-      .filter(vertex => !this.edges.includes(vertex));
-    if (available && available.length > 0) {
-      return available[0];
-    }
-    return null;
+    const available = this.available;
+    return available && available[0] || null;
   }
 
   *[Symbol.iterator](): IterableIterator<string> {
