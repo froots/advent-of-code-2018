@@ -1,5 +1,5 @@
 import tape from 'tape';
-import { solutionA } from './';
+import { solutionA, solutionB } from './';
 import { Graph } from './Graph';
 
 const input: [string, string][] = [
@@ -15,6 +15,11 @@ const input: [string, string][] = [
 tape('Day 7 part 1', t => {
   t.plan(1);
   t.equal(solutionA(input), 'CABDFE');
+});
+
+tape('Day 7 part 2', t => {
+  t.plan(1);
+  t.equal(solutionB(input, 2, 0), 15);
 });
 
 tape('Day 7 Graph#constructor', t => {
@@ -46,5 +51,3 @@ tape('Day 7 Graph#iterate', t => {
   const graph = new Graph(input);
   t.deepEqual([...graph.serialTraverser()], ['C', 'A', 'B', 'D', 'F', 'E']);
 });
-
-

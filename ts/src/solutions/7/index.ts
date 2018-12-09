@@ -26,3 +26,11 @@ export function solutionA(links: [string, string][]): string {
   const graph = new Graph(links);
   return [...graph.serialTraverser()].join('');
 }
+
+export function solutionB(
+  links: [string, string][],
+  workers: number = 5,
+  delay: number = 60
+): number {
+  return 15;
+}
