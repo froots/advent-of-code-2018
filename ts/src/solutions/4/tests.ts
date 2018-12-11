@@ -31,7 +31,6 @@ let input = [
 tape('Day 4 part 1', t => {
   t.plan(1);
   const solution = solutionA(input);
-  t.comment(JSON.stringify(solution));
   t.equal(solutionA(input), 240);
 });
 
