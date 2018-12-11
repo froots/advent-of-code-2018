@@ -3,6 +3,7 @@ import { loadInput } from '../../loadInput';
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(8));
   console.log(`Day 8, part 1: ${solutionA(input)}`);
+  console.log(`Day 8, part 2: ${solutionB(input)}`);
 }
 
 function parseInput(input: string): number[] {
@@ -18,7 +19,8 @@ export function solutionA(input: number[]): number {
 }
 
 export function solutionB(input: number[]): number {
-  return 66;
+  let [root] = parseNode(input);
+  return nodeValue2(root);
 }
 
 export function parseNode(
@@ -53,6 +55,22 @@ export function nodeValue1(node: Node): number {
     0
   );
   return thisSum + childrenSum;
+}
+
+export function nodeValue2(node: Node): number {
+  if (node.children.length === 0) {
+    return node.metadata.reduce(
+      (sum: number, data: number) => sum + data,
+      0
+    );
+  }
+  return node.metadata
+    .map(idx => node.children[idx - 1] || null)
+    .filter(child => child !== null)
+    .reduce(
+      (sum: number, child: Node) => sum + nodeValue2(child),
+      0
+    ); 
 }
 
 type Node = {
