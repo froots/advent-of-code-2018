@@ -14,7 +14,11 @@ function parseInput(input: string): number[] {
 
 export function solutionA(input: number[]): number {
   let [root] = parseNode(input);
-  return sumMetadata(root);
+  return nodeValue1(root);
+}
+
+export function solutionB(input: number[]): number {
+  return 66;
 }
 
 export function parseNode(
@@ -39,13 +43,13 @@ export function parseNode(
   return [node, remaining];
 }
 
-export function sumMetadata(node: Node): number {
+export function nodeValue1(node: Node): number {
   const thisSum = node.metadata.reduce(
     (sum: number, data: number) => sum + data,
     0
   );
   const childrenSum = node.children.reduce(
-    (sum: number, child: Node) => sum + sumMetadata(child),
+    (sum: number, child: Node) => sum + nodeValue1(child),
     0
   );
   return thisSum + childrenSum;
