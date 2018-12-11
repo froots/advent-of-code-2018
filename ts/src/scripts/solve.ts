@@ -5,6 +5,7 @@ import { solve as s4 } from '../solutions/4';
 import { solve as s5 } from '../solutions/5';
 import { solve as s6 } from '../solutions/6';
 import { solve as s7 } from '../solutions/7';
+import { solve as s8 } from '../solutions/8';
 
 const solutions = [
   s1,
@@ -13,7 +14,8 @@ const solutions = [
   s4,
   s5,
   s6,
-  s7
+  s7,
+  s8
 ];
 
 if (process.argv[2]) {
