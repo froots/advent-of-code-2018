@@ -9,6 +9,17 @@ tape('Day 9 DoublyLinkedList - init', t => {
   t.isEqual(list.lastNode, null);
 });
 
+tape('Day 9 DoublyLinkedList - init with values', t => {
+  t.plan(2);
+  const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
+  if (!list.firstNode || !list.lastNode) {
+    t.fail('Should be nodes now');
+    return false;
+  }
+  t.isEqual(list.firstNode.data, 1);
+  t.isEqual(list.lastNode.data, 5);
+});
+
 tape('Day 9 DoublyLinkedList - insertBeginning when empty', t => {
   t.plan(2);
   const list = new DoublyLinkedList();
@@ -114,3 +125,5 @@ tape('Day 9 DoublyLinkedList - moveLastToFirst', t => {
     t.isEqual(list.lastNode, node3, 'Node 3 is last after moving');
   }
 });
+
+

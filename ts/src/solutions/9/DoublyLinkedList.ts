@@ -4,9 +4,13 @@ export class DoublyLinkedList {
   firstNode: null | DoublyLinkedNode;
   lastNode: null | DoublyLinkedNode;
 
-  constructor() {
+  constructor(values: any[] = []) {
     this.firstNode = null;
     this.lastNode = null;
+
+    for (let value of values) {
+      this.insertEnd(new DoublyLinkedNode(value));
+    }
   }
 
   insertBefore(
