@@ -100,7 +100,7 @@ tape('Day 9 DoublyLinkedList - remove from start', t => {
   t.equal(node1.prev, null, 'Removed node has no prev');
 });
 
-tape('Day 9 DoublyLinkedList - moveLastToFirst', t => {
+tape('Day 9 DoublyLinkedList - moveFirstToLast', t => {
   t.plan(5);
   const list = new DoublyLinkedList();
   const node1 = new DoublyLinkedNode(1);
@@ -117,12 +117,12 @@ tape('Day 9 DoublyLinkedList - moveLastToFirst', t => {
     t.isEqual(list.lastNode, node4, 'Node 4 is last before moving');
   }
 
-  list.moveLastToFirst();
+  list.moveFirstToLast();
 
   if (list.lastNode && list.firstNode) {
-    t.isEqual(list.firstNode, node4, 'Node 4 is first after moving');
-    t.isEqual(list.firstNode.next, node1, 'Node 1 is after Node 4 after moving');
-    t.isEqual(list.lastNode, node3, 'Node 3 is last after moving');
+    t.isEqual(list.firstNode, node2, 'Node 2 is first after moving');
+    t.isEqual(list.lastNode, node1, 'Node 1 is last after moving');
+    t.isEqual(list.lastNode.prev, node4, 'Node 4 is before Node 1 after moving');
   }
 });
 

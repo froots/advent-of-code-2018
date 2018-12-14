@@ -41,7 +41,7 @@ export function turn(state: GameState, marble: number): GameState {
   // Add current to end
   state.board.insertEnd(state.current);
   // Switch first to end
-  state.board.moveLastToFirst();
+  state.board.moveFirstToLast();
   return {
     players,
     board: state.board,

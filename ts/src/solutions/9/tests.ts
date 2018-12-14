@@ -20,8 +20,7 @@ tape.skip('Day 9 part 1', t => {
 });
 
 tape('Day 9 #turn', t => {
-  t.plan(10);
-  debugger;
+  t.plan(13);
   const start = startingState(9);
   const board = start.board;
 
@@ -42,12 +41,14 @@ tape('Day 9 #turn', t => {
   t.deepEqual(turn2.players, [0, 0, 0, 0, 0, 0, 0, 0, 0], '2nd turn scores');
   t.equal(turn2.current.data, 2, '2nd turn current value');
   t.equal(board.firstNode.data, 1, '2nd turn first node value');
-  t.equal(board.lastNode.data, 0, '2nd turn lsat node value');
+  t.equal(board.lastNode.data, 0, '2nd turn last node value');
 
-  // const turn3 = turn(turn2, 3);
-  // t.deepEqual(turn3.players, [0, 0, 0, 0, 0, 0, 0, 0, 0], '3rd turn scores');
-  // t.equal(turn3.current.data, 3, '3rd turn current value');
-  // t.deepEqual([...board.values()], [0, 2, 1]);
+  debugger;
+
+  const turn3 = turn(turn2, 3);
+  t.deepEqual(turn3.players, [0, 0, 0, 0, 0, 0, 0, 0, 0], '3rd turn scores');
+  t.equal(turn3.current.data, 3, '3rd turn current value');
+  t.deepEqual([...board], [0, 2, 1], '3rd turn board values');
 
   // t.deepEqual(turn3, {
   //   players: [0, 0, 0, 0, 0, 0, 0, 0, 0],

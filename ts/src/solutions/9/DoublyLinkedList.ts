@@ -71,11 +71,11 @@ export class DoublyLinkedList {
     return this;
   }
 
-  moveLastToFirst(): DoublyLinkedList {
-    if (this.lastNode === null || this.lastNode === this.firstNode) {
+  moveFirstToLast(): DoublyLinkedList {
+    if (this.firstNode === null || this.firstNode === this.lastNode) {
       return this;
     }
-    this.insertBeginning(this.remove(this.lastNode));
+    this.insertEnd(this.remove(this.firstNode));
     return this;
   }
 
