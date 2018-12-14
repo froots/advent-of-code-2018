@@ -8,4 +8,9 @@ export class DoublyLinkedNode {
     this.prev = null;
     this.next = null;
   }
+
+  detach(): void {
+    this.next = null;
+    this.prev = null;
+  }
 }

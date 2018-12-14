@@ -13,6 +13,9 @@ export class DoublyLinkedList {
     node: DoublyLinkedNode,
     newNode: DoublyLinkedNode
   ): DoublyLinkedList {
+    if (newNode === node) {
+      return this;
+    }
     newNode.next = node;
     if (node.prev === null) {
       newNode.prev = null;
@@ -29,6 +32,9 @@ export class DoublyLinkedList {
     node: DoublyLinkedNode,
     newNode: DoublyLinkedNode
   ): DoublyLinkedList {
+    if (newNode === node) {
+      return this;
+    }
     newNode.prev = node;
     if (node.next === null) {
       newNode.next = null;
@@ -45,8 +51,7 @@ export class DoublyLinkedList {
     if (this.firstNode === null) {
       this.firstNode = newNode;
       this.lastNode = newNode;
-      newNode.prev = null;
-      newNode.next = null;
+      newNode.detach();
     } else {
       this.insertBefore(this.firstNode, newNode);
     }
@@ -60,5 +65,31 @@ export class DoublyLinkedList {
       this.insertAfter(this.lastNode, newNode);
     }
     return this;
+  }
+
+  moveLastToFirst(): DoublyLinkedList {
+    if (this.lastNode === null || this.lastNode === this.firstNode) {
+      return this;
+    }
+    this.insertBeginning(this.remove(this.lastNode));
+    return this;
+  }
+
+  remove(node: DoublyLinkedNode): DoublyLinkedNode {
+    if (node.prev === null) {
+      this.firstNode = node.next;
+    } else {
+      node.prev.next = node.next;
+    }
+
+    if (node.next === null) {
+      this.lastNode = node.prev;
+    } else {
+      node.next.prev = node.prev;
+    }
+
+    node.detach();
+
+    return node;
   }
 }
