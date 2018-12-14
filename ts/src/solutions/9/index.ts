@@ -5,8 +5,11 @@ import { DoublyLinkedNode } from './DoublyLinkedNode';
 export async function solve(): Promise<void> {
   const [noPlayers, marbles] = parseInput(await loadInput(9));
   console.time('part1');
-  console.log(`Day 9, part 1 (attempt 2): ${solutionA(noPlayers, marbles)}`);
+  console.log(`Day 9, part 1: ${solutionA(noPlayers, marbles)}`);
   console.timeEnd('part1');
+  console.time('part2');
+  console.log(`Day 9, part 2: ${solutionA(noPlayers, 100 * marbles)}`);
+  console.timeEnd('part2');
 }
 
 function parseInput(input: string): number[] {
