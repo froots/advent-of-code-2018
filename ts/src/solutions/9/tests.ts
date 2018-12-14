@@ -1,6 +1,7 @@
 import tape from 'tape';
-import { solutionA, turn, startingState } from './';
+import { solutionA, turn, startingState, GameState } from './';
 import { DoublyLinkedList } from './DoublyLinkedList';
+import { DoublyLinkedNode } from './DoublyLinkedNode';
 
 const input1: [number, number] = [9, 25];
 const input2: [number, number] = [10, 1618];
@@ -9,7 +10,7 @@ const input4: [number, number] = [17, 1104];
 const input5: [number, number] = [21, 6111];
 const input6: [number, number] = [30, 5807];
 
-tape.skip('Day 9 part 1', t => {
+tape('Day 9 part 1', t => {
   t.plan(6);
   t.equal(solutionA(...input1), 32);
   t.equal(solutionA(...input2), 8317);
@@ -54,4 +55,25 @@ tape('Day 9 #turn', t => {
   t.deepEqual(turn4.players, [0, 0, 0, 0, 0, 0, 0, 0, 0], '4th turn scores');
   t.equal(turn4.current.data, 4, '4th turn current value');
   t.deepEqual([...board], [2, 1, 3, 0], '4th turn board values');
+});
+
+tape('Day 9 #turn on 23rd marble', t => {
+  t.plan(3);
+  const board = new DoublyLinkedList(
+    [11, 1, 12, 6, 13, 3, 14, 7, 15, 0, 16, 8, 17, 4, 18, 9, 19, 2, 20, 10, 21, 5]
+  );
+  const start: GameState = {
+    players: Array(9).fill(0),
+    board,
+    current: new DoublyLinkedNode(22)
+  };
+  const turn23 = turn(start, 23);
+
+  t.deepEqual(turn23.players, [0, 0, 0, 0, 32, 0, 0, 0, 0], 'Tuirn 23 scoring');
+  t.equal(turn23.current.data, 19, 'Turn 23 current value');
+  t.deepEqual(
+    [...board],
+    [2, 20, 10, 21, 5, 22, 11, 1, 12, 6, 13, 3, 14, 7, 15, 0, 16, 8, 17, 4, 18],
+    'Turn 23 board'
+  );
 });

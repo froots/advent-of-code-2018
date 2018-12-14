@@ -131,3 +131,63 @@ tape('Day 9 DoublyLinkedList - values', t => {
   const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
   t.deepEqual([...list], [1, 2, 3, 4, 5]);
 });
+
+tape('Day 9 DoublyLinkedList - rotate', t=> {
+  t.plan(12);
+  const list = new DoublyLinkedList();
+  const node0 = new DoublyLinkedNode(0);
+  const node1 = new DoublyLinkedNode(1);
+  const node2 = new DoublyLinkedNode(2);
+  const node3 = new DoublyLinkedNode(3);
+  const node4 = new DoublyLinkedNode(4);
+  list.insertEnd(node1);
+  list.insertEnd(node2);
+  list.insertEnd(node3);
+  list.insertEnd(node4);
+  // (0) 1 2 3 4
+  let newCurrent = list.rotate(1, node0);
+  // (1) 2 3 4 0
+  if (!newCurrent) {
+    t.fail('Should not be null');
+    return false;
+  }
+
+  t.equal(list.firstNode, node2);
+  t.equal(list.lastNode, node0);
+  t.equal(newCurrent, node1);
+
+  newCurrent = list.rotate(-2, newCurrent);
+  if (!newCurrent) {
+    t.fail('Should not be null');
+    return false;
+  }
+
+  // (4) 0 1 2 3
+  t.equal(list.firstNode, node0);
+  t.equal(list.lastNode, node3);
+  t.equal(newCurrent, node4);
+
+  newCurrent = list.rotate(13, newCurrent);
+  if (!newCurrent) {
+    t.fail('Should not be null');
+    return false;
+  }
+  // (2) 3 4 0 1
+  t.equal(list.firstNode, node3);
+  t.equal(list.lastNode, node1);
+  t.equal(newCurrent, node2);
+
+  newCurrent = list.rotate(-7, newCurrent);
+  if (!newCurrent) {
+    t.fail('Should not be null');
+    return false;
+  }
+  // (0) 1 2 3 4
+  t.equal(list.firstNode, node1);
+  t.equal(list.lastNode, node4);
+  t.equal(newCurrent, node0);
+});
+
+// (5) 6 7 8 9 0 1 2 3 4
+// -7 = (8) 9 0 1 2 3 4 5 6 7
+// [remove first] = (9) 0 1 2 3 4 5 6 7

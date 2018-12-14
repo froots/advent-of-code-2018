@@ -79,6 +79,25 @@ export class DoublyLinkedList {
     return this;
   }
 
+  rotate(n: number, current: DoublyLinkedNode): DoublyLinkedNode | null {
+    let cur = current;
+    if (!this.firstNode || !this.lastNode) {
+      return null;
+    }
+    if (n > 0) {
+      for (let i = 0; i < n; i++) {
+        this.insertEnd(cur);
+        cur = this.remove(this.firstNode);
+      }
+    } else if (n < 0) {
+      for (let i = 0; i > n; i--) {
+        this.insertBeginning(cur);
+        cur = this.remove(this.lastNode);
+      }
+    }
+    return cur;
+  }
+
   remove(node: DoublyLinkedNode): DoublyLinkedNode {
     if (node.prev === null) {
       this.firstNode = node.next;
