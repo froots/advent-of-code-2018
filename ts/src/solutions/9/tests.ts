@@ -20,7 +20,7 @@ tape.skip('Day 9 part 1', t => {
 });
 
 tape('Day 9 #turn', t => {
-  t.plan(13);
+  t.plan(16);
   const start = startingState(9);
   const board = start.board;
 
@@ -50,15 +50,8 @@ tape('Day 9 #turn', t => {
   t.equal(turn3.current.data, 3, '3rd turn current value');
   t.deepEqual([...board], [0, 2, 1], '3rd turn board values');
 
-  // t.deepEqual(turn3, {
-  //   players: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  //   board: [0, 2, 1, 3],
-  //   current: 3
-  // });
-  // const turn4 = turn(turn3, 4);
-  // t.deepEqual(turn4, {
-  //   players: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  //   board: [0, 4, 2, 1, 3],
-  //   current: 1
-  // });
+  const turn4 = turn(turn3, 4);
+  t.deepEqual(turn4.players, [0, 0, 0, 0, 0, 0, 0, 0, 0], '4th turn scores');
+  t.equal(turn4.current.data, 4, '4th turn current value');
+  t.deepEqual([...board], [2, 1, 3, 0], '4th turn board values');
 });
