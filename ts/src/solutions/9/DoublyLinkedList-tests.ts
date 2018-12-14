@@ -22,8 +22,8 @@ tape('Day 9 DoublyLinkedList - init with values', t => {
 
 tape('Day 9 DoublyLinkedList - insertBeginning when empty', t => {
   t.plan(2);
-  const list = new DoublyLinkedList();
   const node = new DoublyLinkedNode(5);
+  const list = new DoublyLinkedList();
   list.insertBeginning(node);
   t.isEqual(list.firstNode, node);
   t.isEqual(list.lastNode, node);
@@ -126,4 +126,8 @@ tape('Day 9 DoublyLinkedList - moveLastToFirst', t => {
   }
 });
 
-
+tape('Day 9 DoublyLinkedList - values', t => {
+  t.plan(1);
+  const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
+  t.deepEqual([...list], [1, 2, 3, 4, 5]);
+});

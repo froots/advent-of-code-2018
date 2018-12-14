@@ -96,4 +96,13 @@ export class DoublyLinkedList {
 
     return node;
   }
+
+  *[Symbol.iterator](): IterableIterator<any> {
+    let list = this;
+    let cursor = list.firstNode;
+    while (cursor) {
+      yield cursor.data;
+      cursor = cursor.next;
+    }
+  }
 }
