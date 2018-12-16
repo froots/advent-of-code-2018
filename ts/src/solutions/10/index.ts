@@ -3,8 +3,10 @@ import { identity } from '../../identity';
 
 export async function solve(): Promise<void> {
   const input = parseInput(await loadInput(10));
+  const [part1, part2] = solution(input);
   console.log(`Day 10, part 1`);
-  console.log(solutionA(input));
+  console.log(part1.join('\n'));
+  console.log(`Day 10, part2: ${part2}`);
 }
 
 function parseInput(input: string): Point[] {
@@ -28,22 +30,34 @@ export function parseLine(line: string): Point {
 
 export function solutionA(input: Point[]): string[] {
   // next: area, points
+  const [s, _] = solution(input);
+  return s;
+}
+
+export function solutionB(input: Point[]): number {
+  const [_, days] = solution(input);
+  return days;
+}
+
+function solution(input: Point[]): [string[], number] {
   let currentPoints = input;
   let currentArea = area(currentPoints);
-  
   let nextPoints = tick(currentPoints);
   let nextArea = area(nextPoints);
+  let count = 0;
 
   while (currentArea >= nextArea) {
     currentPoints = nextPoints;
     currentArea = nextArea;
-
     nextPoints = tick(currentPoints);
     nextArea = area(nextPoints);
+    count++;
   }
 
-  return render(currentPoints);
-
+  return [
+    render(currentPoints),
+    count
+  ];
 }
 
 export function render(points: Point[]): string[] {

@@ -1,5 +1,5 @@
 import tape from 'tape';
-import { solutionA, parseLine, area, bounds, vector, point, tick, render } from './';
+import { solutionA, solutionB, parseLine, area, bounds, vector, point, tick, render } from './';
 import { input } from './test-input';
 
 tape('Day 10 #parseLine', t => {
@@ -24,6 +24,12 @@ tape('Day 10 part 1', t => {
     '#...#...#.',
     '#...#..###'
   ]);
+});
+
+tape('Day 10 part 2', t => {
+  t.plan(1);
+  const inp = input.map(parseLine);
+  t.equal(solutionB(inp), 3);
 });
 
 tape('Day 10 #area', t => {
