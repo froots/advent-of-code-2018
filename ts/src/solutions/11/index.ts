@@ -4,12 +4,43 @@ export async function solve(): Promise<void> {
 }
 
 export function solutionA(serialNo: number): string {
-  // Create grid
-  const g = new Grid(serialNo);
-  // Calculate power of each cell
-  g.powerUp();
-  // Find best 3x3 region
-  return g.bestRegion().join(',');
+  let g = grid(serialNo, 300, 300)
+    .map((row, y) => row.map((cell, x) => cellPower(x + 1, y + 1, cell)))
+    .map((row, y, cells) => row.map((cell, x) => sum(cells, 3, x, y)));
+  
+  let max = -Infinity;
+  let maxX = -1;
+  let maxY = -1;
+
+  g.forEach((row, y) => {
+    row.forEach((cell, x) => {
+      if (typeof cell === 'number' && cell > max) {
+        max = cell;
+        maxX = x;
+        maxY = y;
+      }
+    });
+  });
+
+  return `${maxX + 1},${maxY + 1}`;
+}
+
+function sum(g: number[][], size: number, startX: number, startY: number) {
+  let total = 0;
+  for (let y = startY; y < startY + size; y++) {
+    for (let x = startX; x < startX + size; x++) {
+      if (g[y] && typeof g[y][x] === 'number') {
+        total += g[y][x];
+      } else {
+        return 0;
+      }
+    }
+  }
+  return total;
+}
+
+function grid(serialNo: number, sizeX: number, sizeY: number): number[][] {
+  return Array(sizeY).fill(undefined).map(_ => Array(sizeX).fill(serialNo));
 }
 
 export function cellPower(x: number, y: number, serial: number): number {
@@ -20,45 +51,3 @@ export function cellPower(x: number, y: number, serial: number): number {
     0;
   return power - 5;
 }
-
-export class Grid {
-  serialNo: number;
-  sizeX: number;
-  sizeY: number;
-  cells: number[][];
-
-  constructor(serialNo: number, sizeX: number = 300, sizeY: number = 300) {
-    this.serialNo = serialNo;
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
-    this.cells = Array(sizeY).fill(undefined).map(row => Array(sizeX).fill(0));
-  }
-
-  powerUp(): void {
-    this.cells = this.cells.map(
-      (row: number[], y: number) => row.map(
-        (cell: number, x: number) => cellPower(x + 1, y + 1, this.serialNo)
-      )
-    );
-  }
-
-  bestRegion(): Coord {
-    let best: Coord = [0, 0];
-    let max: number = -Infinity;
-    const c = this.cells;
-    for (let y = 0, yl = c.length - 2; y < yl; y++) {
-      for (let x = 0, xl = c[y].length - 2; x < xl; x++) {
-        const sum = c[y][x] + c[y][x+1] + c[y][x+2] +
-          c[y+1][x] + c[y+1][x+1] + c[y+1][x+2] +
-          c[y+2][x] + c[y+2][x+1] + c[y+2][x+2];
-        if (sum > max) {
-          max = sum;
-          best = [x + 1, y + 1];
-        }
-      }
-    }
-    return best;
-  }
-}
-
-type Coord = [number, number];
