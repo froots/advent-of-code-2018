@@ -7,8 +7,15 @@ tape('Day 12 Part 1', t => {
   t.equal(solutionA(input), 325);
 });
 
-tape.only('Day 12 parseInput pots', t => {
+tape('Day 12 parseInput pots', t => {
   t.plan(1);
   let [ pots ] = parseInput(input);
   t.equal(pots.toString(), '#..#.#..##......###...###');
+});
+
+tape('day 12 parseInput rules', t => {
+  t.plan(2);
+  let [_, rules] = parseInput(input);
+  t.ok(rules.includes('...##'));
+  t.equal(rules.length, 14);
 });
