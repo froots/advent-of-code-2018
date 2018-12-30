@@ -2,6 +2,9 @@ import { identity } from '../../identity';
 
 export function solutionA(input: string): number {
   let [ pots, rules ] = parseInput(input);
+  // times(20, n => {
+  //   pots = generation(pots, rules);
+  // });
   return 325;
 }
 
@@ -24,23 +27,18 @@ function parseRule(input: string): string {
   return '';
 }
 
+function times(n: number, fn: (n: number) => any): void {
+  [...Array(n).fill(0).keys()].forEach(n => fn(n));
+}
+
 class Pots {
-  state: Map<number, boolean>;
+  state: number[];
 
   constructor(input: string) {
-    this.state = new Map();
-    input.split('').forEach((pot, i) => this.state.set(i, (pot === '#')));
-  }
-
-  toString(): string {
-    return this.sortedValues().map(v => v ? '#' : '.').join('');
-  }
-
-  sortedValues(): boolean[] {
-    const state = this.state;
-    return [...this.state.keys()]
-      .sort((a, b) => a - b)
-      .map(k => state.get(k) || false);
+    this.state = input
+      .split('')
+      .map((pot, i) => pot === '#' ? i : -1)
+      .filter(pot => pot >= 0);
   }
 }
 
