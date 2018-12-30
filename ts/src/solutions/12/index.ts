@@ -1,4 +1,12 @@
 import { identity } from '../../identity';
+import { loadInput } from '../../loadInput';
+
+export async function solve(): Promise<void> {
+  const input = await loadInput(12);
+  console.time('day12.1');
+  console.log(`Day 12, part 1: ${solutionA(input)}`);
+  console.timeEnd('day12.1');
+}
 
 export function solutionA(input: string): number {
   let [ pots, rules ] = parseInput(input);
