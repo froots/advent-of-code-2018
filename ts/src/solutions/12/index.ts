@@ -6,6 +6,9 @@ export async function solve(): Promise<void> {
   console.time('day12.1');
   console.log(`Day 12, part 1: ${solutionA(input)}`);
   console.timeEnd('day12.1');
+  console.time('day12.2');
+  console.log(`Day 12, part 2: ${solutionB(input)}`);
+  console.timeEnd('day12.2');
 }
 
 export function solutionA(input: string): number {
@@ -14,6 +17,33 @@ export function solutionA(input: string): number {
     pots.generation(rules);
   });
   return pots.sum();
+}
+
+export function solutionB(input: string): number {
+  const GENERATIONS = 5000000000;
+  let [ pots, rules ] = parseInput(input);
+
+  let prev = 0;
+  let sum = 0;
+  let diff = 0;
+  let history = [];
+
+  for (let i = 0; i < GENERATIONS; i++) {
+    pots.generation(rules);
+    sum = pots.sum();
+    diff = sum - prev;
+    history.push(diff);
+    if (history.length > 10) {
+      history.shift();
+      if (Math.min(...history) === Math.max(...history)) {
+        let base = sum - (diff * i);
+        return base + (GENERATIONS - 1) * diff;
+      }
+    }
+    prev = sum;
+  }
+  
+  return pots.sum(); // Won't ever get here
 }
 
 export function parseInput(input: string): [Pots, Rules] {
