@@ -2,10 +2,10 @@ import { identity } from '../../identity';
 
 export function solutionA(input: string): number {
   let [ pots, rules ] = parseInput(input);
-  // times(20, n => {
-  //   pots = generation(pots, rules);
-  // });
-  return 325;
+  times(20, n => {
+    pots.generation(rules);
+  });
+  return pots.sum();
 }
 
 export function parseInput(input: string): [Pots, Rules] {
