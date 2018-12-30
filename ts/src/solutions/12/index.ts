@@ -74,6 +74,10 @@ class Pots {
     }
     return pattern;
   }
+
+  sum(): number {
+    return this.sortedValues().reduce((sum, current) => sum + current, 0);
+  }
 }
 
 type Rules = string[];

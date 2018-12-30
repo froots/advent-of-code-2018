@@ -30,3 +30,9 @@ tape('Day 12 generation', t => {
   pots.generation(rules);
   t.deepEqual(pots.sortedValues(), [-1, 1, 5, 8, 10, 15, 18, 21, 25]);
 });
+
+tape('Day 12 sum', t => {
+  t.plan(1);
+  let [ pots, rules ] = parseInput(input);
+  t.equal(pots.sum(), 145);
+})
