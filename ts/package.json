@@ -6,7 +6,7 @@
     "start": "tsc && node ./dist/scripts/solve.js",
     "test": "tsc && tape dist/**/*tests.js | tap-dot",
     "test:w": "tape-watch dist/**/*tests.js -o '| tap-dot --color'",
-    "test:today": "tape-watch dist/solutions/12/*tests.js -o '| tap-dot --color'",
+    "test:today": "tape-watch dist/solutions/14/*tests.js -o '| tap-dot --color'",
     "tsc": "tsc",
     "tsc:w": "tsc -w"
   },
