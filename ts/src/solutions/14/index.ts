@@ -4,12 +4,19 @@ export function solve(): void {
   console.timeEnd('day14.1');
 }
 
-export function solutionA(recipes: number): number {
-  const startState: State = {
+export function solutionA(steps: number): string {
+  let state: State = {
     recipes: [3, 7],
     pointers: [0, 1]
   };
-  return 5158916779;
+
+  while(state.recipes.length < steps + 10) {
+    state = step(state);
+  }
+
+  const r = state.recipes;
+
+  return r.slice(steps, steps + 10).join('');
 }
 
 export function step(state: State): State {
@@ -17,8 +24,8 @@ export function step(state: State): State {
   const r1 = state.recipes[p1];
   const r2 = state.recipes[p2];
   const recipes = [...state.recipes, ...digitSum(r1, r2)];
-  p1 = p1 + (r1 + 1) % recipes.length;
-  p2 = p2 + (r2 + 1) % recipes.length;
+  p1 = (p1 + (r1 + 1)) % recipes.length;
+  p2 = (p2 + (r2 + 1)) % recipes.length;
   return {
     recipes,
     pointers: [p1, p2]

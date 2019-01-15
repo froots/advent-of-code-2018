@@ -2,10 +2,11 @@ import tape from 'tape';
 import { solutionA, digitSum, State, step } from './';
 
 tape('Day 14 Part 1', t => {
-  t.plan(1);
-  const actual = solutionA(9);
-  const expected = 5158916779;
-  t.equal(actual, expected, 'Day 14 part 1 solution');
+  t.plan(4);
+  t.equal(solutionA(9), '5158916779', 'Day 14 part 1 example 1');
+  t.equal(solutionA(5), '0124515891', 'Day 14 part 1 example 2');
+  t.equal(solutionA(18), '9251071085', 'Day 14 part 1 example 3');
+  t.equal(solutionA(2018), '5941429882', 'Day 14 part 1 example 4');
 });
 
 tape('Day 14 digitSum', t => {
@@ -16,8 +17,8 @@ tape('Day 14 digitSum', t => {
   t.deepEqual(digitSum(2, 9), [1, 1]);
 });
 
-tape.only('Day 14 step', t => {
-  t.plan(6);
+tape('Day 14 step', t => {
+  t.plan(8);
   let state: State = {
     recipes: [3, 7],
     pointers: [0, 1]
@@ -31,4 +32,7 @@ tape.only('Day 14 step', t => {
   state = step(state);
   t.deepEqual(state.recipes, [3, 7, 1, 0, 1, 0, 1], 'recipes3');
   t.deepEqual(state.pointers, [6, 4], 'pointers3');
+  state = step(state);
+  t.deepEqual(state.recipes, [3, 7, 1, 0, 1, 0, 1, 2], 'recipes4');
+  t.deepEqual(state.pointers, [0, 6], 'pointers4');
 });
