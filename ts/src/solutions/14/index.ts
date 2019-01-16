@@ -10,8 +10,12 @@ export function solutionA(steps: number): string {
     pointers: [0, 1]
   };
 
+  let i = 0;
+
   while(state.recipes.length < steps + 10) {
+    console.log(i);
     state = step(state);
+    i++;
   }
 
   const r = state.recipes;

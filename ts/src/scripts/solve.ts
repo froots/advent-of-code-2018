@@ -25,6 +25,7 @@ const solutions = [
   s10,
   s11,
   s12,
+  s12,
   s14,
 ];
 
