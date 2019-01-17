@@ -1,5 +1,5 @@
 import tape from 'tape';
-import { solutionA, digitSum, State, CircularLinkedList, step } from './';
+import { solutionA, digitSum, CircularLinkedList, ListNode, step } from './';
 
 tape('Day 14 Part 1', t => {
   t.plan(4);
@@ -18,21 +18,25 @@ tape('Day 14 digitSum', t => {
 });
 
 tape('Day 14 step', t => {
-  t.plan(8);
-  let state: State = {
-    recipes: new CircularLinkedList(3, 7),
-    pointers: [0, 1]
-  };
-  state = step(state);
-  t.deepEqual([...state.recipes], [3, 7, 1, 0], 'recipes1');
-  t.deepEqual(state.pointers, [0, 1], 'pointers1');
-  state = step(state);
-  t.deepEqual([...state.recipes], [3, 7, 1, 0, 1, 0], 'recipes2');
-  t.deepEqual(state.pointers, [4, 3], 'pointers2');
-  state = step(state);
-  t.deepEqual([...state.recipes], [3, 7, 1, 0, 1, 0, 1], 'recipes3');
-  t.deepEqual(state.pointers, [6, 4], 'pointers3');
-  state = step(state);
-  t.deepEqual([...state.recipes], [3, 7, 1, 0, 1, 0, 1, 2], 'recipes4');
-  t.deepEqual(state.pointers, [0, 6], 'pointers4');
+  t.plan(12);
+  let recipes = new CircularLinkedList(3, 7);
+  let r1 = <ListNode>recipes.at(0);
+  let r2 = <ListNode>recipes.at(1);
+
+  [recipes, r1, r2] = step(recipes, r1, r2);
+  t.deepEqual([...recipes], [3, 7, 1, 0], 'recipes1');
+  t.equal(r1.data, 3);
+  t.equal(r2.data, 7);
+  [recipes, r1, r2] = step(recipes, r1, r2);
+  t.deepEqual([...recipes], [3, 7, 1, 0, 1, 0], 'recipes2');
+  t.equal(r1.data, 1);
+  t.equal(r2.data, 0);
+  [recipes, r1, r2] = step(recipes, r1, r2);
+  t.deepEqual([...recipes], [3, 7, 1, 0, 1, 0, 1], 'recipes3');
+  t.equal(r1.data, 1);
+  t.equal(r2.data, 1);
+  [recipes, r1, r2] = step(recipes, r1, r2);
+  t.deepEqual([...recipes], [3, 7, 1, 0, 1, 0, 1, 2], 'recipes4');
+  t.equal(r1.data, 3);
+  t.equal(r2.data, 1);
 });

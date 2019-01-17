@@ -5,48 +5,45 @@ export function solve(): void {
 }
 
 export function solutionA(steps: number): string {
-  let state: State = {
-    recipes: new CircularLinkedList(3, 7),
-    pointers: [0, 1]
-  };
+  let recipes = new CircularLinkedList(3, 7);
+  let r1 = recipes.at(0);
+  let r2 = recipes.at(1);
 
-  while(state.recipes.size < steps + 10) {
-    console.log(state.recipes.size);
-    state = step(state);
+  while(r1 && r2 && recipes.size < steps + 10) {
+    console.log(recipes.size);
+    [recipes, r1, r2] = step(recipes, r1, r2);
   }
 
-  return [...state.recipes].slice(steps, steps + 10).join('');
+  return [...recipes].slice(steps, steps + 10).join('');
 }
 
-export function step(state: State): State {
-  let [p1, p2] = state.pointers;
-  const r1: ListNode | null = state.recipes.at(p1);
-  const r2: ListNode | null = state.recipes.at(p2);
-
-  if (!r1 || !r2) {
-    throw new Error('No pointers');
-  }
+export function step(
+  recipes: CircularLinkedList,
+  r1: ListNode,
+  r2: ListNode
+): [CircularLinkedList, ListNode, ListNode] {
 
   digitSum(r1.data, r2.data)
-    .forEach(newVal => state.recipes.add(newVal));
+    .forEach(newVal => recipes.add(newVal));
 
-  p1 = (p1 + r1.data + 1) % state.recipes.size;
-  p2 = (p2 + r2.data + 1) % state.recipes.size;
+  for (let n = 0, len = r1.data + 1; n < len; n++) {
+    r1 = r1.next || r1;
+  }
 
-  return {
-    recipes: state.recipes,
-    pointers: [p1, p2]
-  };
+  for (let n = 0, len = r2.data + 1; n < len; n++) {
+    r2 = r2.next || r2;
+  }
+
+  return [
+    recipes,
+    r1,
+    r2
+  ];
 }
 
 export function digitSum(n1: number, n2: number): number[] {
   return (n1 + n2).toString().split('').map(Number);
 }
-
-export type State = {
-  recipes: CircularLinkedList,
-  pointers: [number, number]
-};
 
 export class CircularLinkedList {
   head: ListNode | null;
@@ -106,7 +103,7 @@ export class CircularLinkedList {
   }
 }
 
-class ListNode {
+export class ListNode {
   data: any;
   next: ListNode | null;
 
