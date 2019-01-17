@@ -2,6 +2,9 @@ export function solve(): void {
   console.time('day14.1');
   console.log(`Day 14, part 1: ${solutionA(894501)}`);
   console.timeEnd('day14.1');
+  console.time('day14.2');
+  console.log(`Day 14, part 2: ${solutionB('894501')}`);
+  console.timeEnd('day14.2');
 }
 
 export function solutionA(steps: number): string {
@@ -14,6 +17,20 @@ export function solutionA(steps: number): string {
   }
 
   return [...recipes].slice(steps, steps + 10).join('');
+}
+
+export function solutionB(pattern: string): number {
+  let recipes = new CircularLinkedList(3, 7);
+  let r1 = recipes.at(0);
+  let r2 = recipes.at(1);
+  let last7 = recipes.last7();
+
+  while(r1 && r2 && last7.indexOf(pattern) === -1) {
+    [recipes, r1, r2] = step(recipes, r1, r2);
+    last7 = recipes.last7();
+  }
+
+  return [...recipes].join('').indexOf(pattern);
 }
 
 export function step(
@@ -60,10 +77,13 @@ export class CircularLinkedList {
     const node = new ListNode(data);
     let end = this.tail;
 
-    if (!end) {
+    if (!this.head || !end) {
       this.head = node;
+      node.prev = node;
     } else {
       end.next = node;
+      node.prev = end;
+      this.head.prev = node;
     }
 
     this.tail = node;
@@ -85,6 +105,21 @@ export class CircularLinkedList {
     }
     return currentNode;
   }
+  
+  last7(): string {
+    if (!this.tail) {
+      return '';
+    }
+    let count = 7;
+    let nodes = [];
+    let current = this.tail;
+    while (count && current.prev !== this.tail) {
+      nodes.unshift(current);
+      current = current.prev || current;
+      count--;
+    }
+    return nodes.map(node => node.data).join('');
+  }
 
   *[Symbol.iterator](): IterableIterator<any> {
     let list = this;
@@ -105,9 +140,11 @@ export class CircularLinkedList {
 export class ListNode {
   data: any;
   next: ListNode | null;
+  prev: ListNode | null;
 
   constructor(data: any) {
     this.data = data;
     this.next = null;
+    this.prev = null;
   }
 }

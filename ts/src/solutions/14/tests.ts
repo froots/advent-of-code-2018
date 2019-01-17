@@ -1,5 +1,5 @@
 import tape from 'tape';
-import { solutionA, digitSum, CircularLinkedList, ListNode, step } from './';
+import { solutionA, solutionB, digitSum, CircularLinkedList, ListNode, step } from './';
 
 tape('Day 14 Part 1', t => {
   t.plan(4);
@@ -7,6 +7,14 @@ tape('Day 14 Part 1', t => {
   t.equal(solutionA(5), '0124515891', 'Day 14 part 1 example 2');
   t.equal(solutionA(18), '9251071085', 'Day 14 part 1 example 3');
   t.equal(solutionA(2018), '5941429882', 'Day 14 part 1 example 4');
+});
+
+tape('Day 14 Part 2', t => {
+  t.plan(4);
+  t.equal(solutionB('51589'), 9);
+  t.equal(solutionB('01245'), 5);
+  t.equal(solutionB('92510'), 18);
+  t.equal(solutionB('59414'), 2018);
 });
 
 tape('Day 14 digitSum', t => {
