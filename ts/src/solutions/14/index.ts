@@ -10,7 +10,6 @@ export function solutionA(steps: number): string {
   let r2 = recipes.at(1);
 
   while(r1 && r2 && recipes.size < steps + 10) {
-    console.log(recipes.size);
     [recipes, r1, r2] = step(recipes, r1, r2);
   }
 
