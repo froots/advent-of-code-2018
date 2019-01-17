@@ -50,29 +50,27 @@ export type State = {
 
 export class CircularLinkedList {
   head: ListNode | null;
+  tail: ListNode | null;
   size: number;
 
   constructor(...items: any[]) {
     this.size = 0;
     this.head = null;
+    this.tail = null;
     items.forEach(item => this.add(item));
   }
 
   add(data: any): ListNode {
     const node = new ListNode(data);
-    let currentNode = this.head;
+    let end = this.tail;
 
-    if (!currentNode) {
+    if (!end) {
       this.head = node;
-    } else if (currentNode.next === currentNode) {
-      currentNode.next = node;
     } else {
-      while (currentNode.next && currentNode.next !== this.head) {
-        currentNode = currentNode.next;
-      }
-      currentNode.next = node;
+      end.next = node;
     }
 
+    this.tail = node;
     node.next = this.head;
     this.size++;
 
