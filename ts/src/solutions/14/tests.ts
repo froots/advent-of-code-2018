@@ -1,5 +1,5 @@
 import tape from 'tape';
-import { solutionA, digitSum, State, step } from './';
+import { solutionA, digitSum, State, CircularLinkedList, step } from './';
 
 tape('Day 14 Part 1', t => {
   t.plan(4);
@@ -20,19 +20,19 @@ tape('Day 14 digitSum', t => {
 tape('Day 14 step', t => {
   t.plan(8);
   let state: State = {
-    recipes: [3, 7],
+    recipes: new CircularLinkedList(3, 7),
     pointers: [0, 1]
   };
   state = step(state);
-  t.deepEqual(state.recipes, [3, 7, 1, 0], 'recipes1');
+  t.deepEqual([...state.recipes], [3, 7, 1, 0], 'recipes1');
   t.deepEqual(state.pointers, [0, 1], 'pointers1');
   state = step(state);
-  t.deepEqual(state.recipes, [3, 7, 1, 0, 1, 0], 'recipes2');
+  t.deepEqual([...state.recipes], [3, 7, 1, 0, 1, 0], 'recipes2');
   t.deepEqual(state.pointers, [4, 3], 'pointers2');
   state = step(state);
-  t.deepEqual(state.recipes, [3, 7, 1, 0, 1, 0, 1], 'recipes3');
+  t.deepEqual([...state.recipes], [3, 7, 1, 0, 1, 0, 1], 'recipes3');
   t.deepEqual(state.pointers, [6, 4], 'pointers3');
   state = step(state);
-  t.deepEqual(state.recipes, [3, 7, 1, 0, 1, 0, 1, 2], 'recipes4');
+  t.deepEqual([...state.recipes], [3, 7, 1, 0, 1, 0, 1, 2], 'recipes4');
   t.deepEqual(state.pointers, [0, 6], 'pointers4');
 });
